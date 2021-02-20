@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoT driver firebase", "IoT driver firebase\IoT driver firebase.csproj", "{11C0E2CE-8CE7-4F2B-98F0-F8641BB1953C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11C0E2CE-8CE7-4F2B-98F0-F8641BB1953C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11C0E2CE-8CE7-4F2B-98F0-F8641BB1953C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11C0E2CE-8CE7-4F2B-98F0-F8641BB1953C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11C0E2CE-8CE7-4F2B-98F0-F8641BB1953C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2F5B3C9-EEAD-4376-9C68-FF096DC8EF55}
+	EndGlobalSection
+EndGlobal
