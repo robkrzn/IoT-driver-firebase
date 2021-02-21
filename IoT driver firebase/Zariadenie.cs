@@ -8,7 +8,7 @@ namespace IoT_driver_firebase
 {
     class Zariadenie
     {
-        public string Zaradenie { get; set; }
+        public string Id { get; set; }
         
         public string Volby { get; set; }
 

@@ -32,12 +32,13 @@ namespace IoT_driver_firebase
             System.Windows.Forms.Button startGameButton;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Zariadenie = new System.Windows.Forms.Label();
             this.deviceComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.hryBox = new System.Windows.Forms.ComboBox();
-            this.Zariadenie = new System.Windows.Forms.Label();
-            this.startAllButton = new System.Windows.Forms.Button();
             this.ledLabel = new System.Windows.Forms.Label();
+            this.hryBox = new System.Windows.Forms.ComboBox();
+            this.startAllButton = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
             startGameButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -64,6 +65,15 @@ namespace IoT_driver_firebase
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Vyber zariadenie";
             // 
+            // Zariadenie
+            // 
+            this.Zariadenie.AutoSize = true;
+            this.Zariadenie.Location = new System.Drawing.Point(180, 29);
+            this.Zariadenie.Name = "Zariadenie";
+            this.Zariadenie.Size = new System.Drawing.Size(57, 13);
+            this.Zariadenie.TabIndex = 1;
+            this.Zariadenie.Text = "Zariadenie";
+            // 
             // deviceComboBox
             // 
             this.deviceComboBox.FormattingEnabled = true;
@@ -75,6 +85,7 @@ namespace IoT_driver_firebase
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.stopButton);
             this.groupBox2.Controls.Add(this.ledLabel);
             this.groupBox2.Controls.Add(startGameButton);
             this.groupBox2.Controls.Add(this.hryBox);
@@ -85,6 +96,16 @@ namespace IoT_driver_firebase
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nastavenie hry";
             // 
+            // ledLabel
+            // 
+            this.ledLabel.AutoSize = true;
+            this.ledLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(50)));
+            this.ledLabel.Location = new System.Drawing.Point(222, 13);
+            this.ledLabel.Name = "ledLabel";
+            this.ledLabel.Size = new System.Drawing.Size(46, 63);
+            this.ledLabel.TabIndex = 2;
+            this.ledLabel.Text = "•";
+            // 
             // hryBox
             // 
             this.hryBox.FormattingEnabled = true;
@@ -93,15 +114,6 @@ namespace IoT_driver_firebase
             this.hryBox.Size = new System.Drawing.Size(210, 21);
             this.hryBox.TabIndex = 0;
             this.hryBox.SelectedIndexChanged += new System.EventHandler(this.hryBox_SelectedIndexChanged);
-            // 
-            // Zariadenie
-            // 
-            this.Zariadenie.AutoSize = true;
-            this.Zariadenie.Location = new System.Drawing.Point(180, 29);
-            this.Zariadenie.Name = "Zariadenie";
-            this.Zariadenie.Size = new System.Drawing.Size(57, 13);
-            this.Zariadenie.TabIndex = 1;
-            this.Zariadenie.Text = "Zariadenie";
             // 
             // startAllButton
             // 
@@ -113,15 +125,15 @@ namespace IoT_driver_firebase
             this.startAllButton.UseVisualStyleBackColor = true;
             this.startAllButton.Click += new System.EventHandler(this.startAllButton_Click);
             // 
-            // ledLabel
+            // stopButton
             // 
-            this.ledLabel.AutoSize = true;
-            this.ledLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(50)));
-            this.ledLabel.Location = new System.Drawing.Point(222, 13);
-            this.ledLabel.Name = "ledLabel";
-            this.ledLabel.Size = new System.Drawing.Size(46, 63);
-            this.ledLabel.TabIndex = 2;
-            this.ledLabel.Text = "•";
+            this.stopButton.Location = new System.Drawing.Point(138, 46);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 3;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // Form1
             // 
@@ -151,6 +163,7 @@ namespace IoT_driver_firebase
         private System.Windows.Forms.Label Zariadenie;
         private System.Windows.Forms.Button startAllButton;
         private System.Windows.Forms.Label ledLabel;
+        private System.Windows.Forms.Button stopButton;
     }
 }
 

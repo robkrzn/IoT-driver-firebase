@@ -29,9 +29,12 @@ namespace IoT_driver_firebase
             if (this.client==null) {
                 MessageBox.Show("Chyba servera");
             }
-            deviceComboBox.Items.Add("1");
-            deviceComboBox.Items.Add("2");
-            deviceComboBox.Items.Add("3");
+            for (int i = 0; i < pocetPrvkov(); i++) {
+                deviceComboBox.Items.Add(i);
+            }
+            
+            //deviceComboBox.Items.Add("2");
+            //deviceComboBox.Items.Add("3");
             hryBox.Items.Add("Svetelna brana");
             hryBox.Items.Add("Morseovka");
             hryBox.Items.Add("LED Hra");
@@ -39,12 +42,31 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Tlieskaj");
             hryBox.Items.Add("Dotyk");
         }
+        private int pocetPrvkov() {
+            int pocet=0;
+            try
+            {
+                var nacitac = client.Get(@"Zariadenie");
+                Dictionary<string, Zariadenie> nacitaneZariadenia = nacitac.ResultAs<Dictionary<string, Zariadenie>>();
+                pocet = nacitaneZariadenia.Count;
+            }
+            catch {
+                MessageBox.Show("smola");
+                deviceComboBox.Items.Add("1");
+                deviceComboBox.Items.Add("2");
+                deviceComboBox.Items.Add("3");
+            }
 
+            //FirebaseResponse response = await client.GetAsync("Zariadenie");
+            //Dictionary<string, Zariadenie> data = response.ResultAs<Dictionary<string, Zariadenie>>();
+            //Dictionary<string, Zariadenie> nacitaneZariadenia = 
+            return pocet;
+        }
         private void startGameButton_Click(object sender, EventArgs e)
         {
             Zariadenie dev = new Zariadenie()
             {
-                Zaradenie = deviceComboBox.SelectedItem.ToString(),
+                Id = deviceComboBox.SelectedItem.ToString(),
                 Volby = hryBox.SelectedItem.ToString(),
                 Start = "true"
             };
@@ -52,33 +74,60 @@ namespace IoT_driver_firebase
             ledLabel.ForeColor = Color.Green;
             //MessageBox.Show("Zariadenie zapnuté");
         }
-
-        private void hryBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void stopButton_Click(object sender, EventArgs e)
         {
             Zariadenie dev = new Zariadenie()
             {
-                Zaradenie = deviceComboBox.SelectedItem.ToString(),
+                Id = deviceComboBox.SelectedItem.ToString(),
                 Volby = hryBox.SelectedItem.ToString(),
                 Start = "false"
+            };
+            var nastavovac = client.Set("Zariadenie/" + deviceComboBox.SelectedItem.ToString(), dev);
+            ledLabel.ForeColor = Color.Red;
+            //MessageBox.Show("Zariadenie zapnuté");
+        }
+        private void startAllButton_Click(object sender, EventArgs e)
+        {
+            foreach (var prvok in deviceComboBox.Items)
+            {
+                Zariadenie dev2 = nacitajZariadenie(prvok.ToString());
+                Zariadenie dev = new Zariadenie()
+                {
+                    Id = dev2.Id,
+                    Volby = dev2.Volby,
+                    Start = "true"
+                };
+                var nastavovac = client.Set("Zariadenie/" + prvok.ToString(), dev);
+            }
+        }
+        private void hryBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Zariadenie dev2 = nacitajZariadenie(deviceComboBox.SelectedItem.ToString());
+            Zariadenie dev = new Zariadenie()
+            {
+                Id = deviceComboBox.SelectedItem.ToString(),
+                Volby = hryBox.SelectedItem.ToString(),
+                Start = dev2.Start
             };
             var nastavovac = client.Set("Zariadenie/" + deviceComboBox.SelectedItem.ToString(), dev);
             //MessageBox.Show("Data odoslane");
         }
 
-        private void startAllButton_Click(object sender, EventArgs e)
-        {
-            var nacitac = client.Get("Zariadenie/" + "1");
-            Zariadenie dev = nacitac.ResultAs<Zariadenie>();
-            hryBox.SelectedIndex = hryBox.FindStringExact(dev.Volby);
-        }
+        
 
         private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var nacitac = client.Get("Zariadenie/" + deviceComboBox.SelectedItem.ToString());
-            Zariadenie dev = nacitac.ResultAs<Zariadenie>();
+            Zariadenie dev = nacitajZariadenie(deviceComboBox.SelectedItem.ToString());
             hryBox.SelectedIndex = hryBox.FindStringExact(dev.Volby);
             if (dev.Start == "true")ledLabel.ForeColor = Color.Green;
             else  ledLabel.ForeColor = Color.Red;
         }
+        Zariadenie nacitajZariadenie(string id) {
+            FirebaseResponse nacitac = client.Get("Zariadenie/" + id);
+            Zariadenie dev = nacitac.ResultAs<Zariadenie>();
+            return dev;
+        }
+
+        
     }
 }
