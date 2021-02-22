@@ -39,6 +39,7 @@ namespace IoT_driver_firebase
             this.hryBox = new System.Windows.Forms.ComboBox();
             this.startAllButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
+            this.stopAllButton = new System.Windows.Forms.Button();
             startGameButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -135,11 +136,22 @@ namespace IoT_driver_firebase
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
+            // stopAllButton
+            // 
+            this.stopAllButton.Location = new System.Drawing.Point(165, 210);
+            this.stopAllButton.Name = "stopAllButton";
+            this.stopAllButton.Size = new System.Drawing.Size(141, 23);
+            this.stopAllButton.TabIndex = 3;
+            this.stopAllButton.Text = "Vypnut všetky";
+            this.stopAllButton.UseVisualStyleBackColor = true;
+            this.stopAllButton.Click += new System.EventHandler(this.stopAllButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 260);
+            this.Controls.Add(this.stopAllButton);
             this.Controls.Add(this.startAllButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -164,6 +176,7 @@ namespace IoT_driver_firebase
         private System.Windows.Forms.Button startAllButton;
         private System.Windows.Forms.Label ledLabel;
         private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button stopAllButton;
     }
 }
 

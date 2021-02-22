@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -21,20 +23,27 @@ namespace IoT_driver_firebase
     {
         private IFirebaseClient client;
         private IFirebaseConfig config;
+        private int pocetPrvkovNum=0;
+        private Senzor[] databazaSenzorov;
         public Form1()
         {
             InitializeComponent();
             this.config = new FirebaseConfig { AuthSecret = "gvsLlFof5OhtvW9SEFnpdLYzI6lVgJujVxD7HIHc", BasePath = "https://unikova-hra-default-rtdb.firebaseio.com/" };
             this.client = new FireSharp.FirebaseClient(config);
             if (this.client==null) {
-                MessageBox.Show("Chyba servera");
+                MessageBox.Show("Chyba pripojenia");
             }
-            for (int i = 0; i < pocetPrvkov(); i++) {
+            for (int i = 0; i < this.pocetPrvkovNum; i++) {
                 deviceComboBox.Items.Add(i);
             }
-            
+            this.databazaSenzorov = databaza();
+            //pocetPrvkov();
+            for (int i = 1; i < databazaSenzorov.Length; i++) {
+                deviceComboBox.Items.Add(databazaSenzorov[i].Id);
+            }
+            //deviceComboBox.Items.Add("1");
             //deviceComboBox.Items.Add("2");
-            //deviceComboBox.Items.Add("3");
+            deviceComboBox.Items.Add("4");
             hryBox.Items.Add("Svetelna brana");
             hryBox.Items.Add("Morseovka");
             hryBox.Items.Add("LED Hra");
@@ -42,29 +51,19 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Tlieskaj");
             hryBox.Items.Add("Dotyk");
         }
-        private int pocetPrvkov() {
-            int pocet=0;
-            try
-            {
-                var nacitac = client.Get(@"Zariadenie");
-                Dictionary<string, Zariadenie> nacitaneZariadenia = nacitac.ResultAs<Dictionary<string, Zariadenie>>();
-                pocet = nacitaneZariadenia.Count;
-            }
-            catch {
-                MessageBox.Show("smola");
-                deviceComboBox.Items.Add("1");
-                deviceComboBox.Items.Add("2");
-                deviceComboBox.Items.Add("3");
-            }
-
-            //FirebaseResponse response = await client.GetAsync("Zariadenie");
-            //Dictionary<string, Zariadenie> data = response.ResultAs<Dictionary<string, Zariadenie>>();
-            //Dictionary<string, Zariadenie> nacitaneZariadenia = 
-            return pocet;
+        private async void pocetPrvkov() {
+            FirebaseResponse response = await client.GetAsync("Zariadenie");
+            Senzor[] todo = response.ResultAs<Senzor[]>();
+            MessageBox.Show(todo[2].Volby);
+        }
+        private Senzor[] databaza() {
+            FirebaseResponse response = client.Get("Zariadenie");
+            Senzor[] todo = response.ResultAs<Senzor[]>();
+            return todo;
         }
         private void startGameButton_Click(object sender, EventArgs e)
         {
-            Zariadenie dev = new Zariadenie()
+            Senzor dev = new Senzor()
             {
                 Id = deviceComboBox.SelectedItem.ToString(),
                 Volby = hryBox.SelectedItem.ToString(),
@@ -76,7 +75,7 @@ namespace IoT_driver_firebase
         }
         private void stopButton_Click(object sender, EventArgs e)
         {
-            Zariadenie dev = new Zariadenie()
+            Senzor dev = new Senzor()
             {
                 Id = deviceComboBox.SelectedItem.ToString(),
                 Volby = hryBox.SelectedItem.ToString(),
@@ -90,8 +89,8 @@ namespace IoT_driver_firebase
         {
             foreach (var prvok in deviceComboBox.Items)
             {
-                Zariadenie dev2 = nacitajZariadenie(prvok.ToString());
-                Zariadenie dev = new Zariadenie()
+                Senzor dev2 = nacitajZariadenie(prvok.ToString());
+                Senzor dev = new Senzor()
                 {
                     Id = dev2.Id,
                     Volby = dev2.Volby,
@@ -100,10 +99,24 @@ namespace IoT_driver_firebase
                 var nastavovac = client.Set("Zariadenie/" + prvok.ToString(), dev);
             }
         }
+        private void stopAllButton_Click(object sender, EventArgs e)
+        {
+            foreach (var prvok in deviceComboBox.Items)
+            {
+                Senzor dev2 = nacitajZariadenie(prvok.ToString());
+                Senzor dev = new Senzor()
+                {
+                    Id = dev2.Id,
+                    Volby = dev2.Volby,
+                    Start = "false"
+                };
+                var nastavovac = client.Set("Zariadenie/" + prvok.ToString(), dev);
+            }
+        }
         private void hryBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Zariadenie dev2 = nacitajZariadenie(deviceComboBox.SelectedItem.ToString());
-            Zariadenie dev = new Zariadenie()
+            Senzor dev2 = nacitajZariadenie(deviceComboBox.SelectedItem.ToString());
+            Senzor dev = new Senzor()
             {
                 Id = deviceComboBox.SelectedItem.ToString(),
                 Volby = hryBox.SelectedItem.ToString(),
@@ -117,14 +130,16 @@ namespace IoT_driver_firebase
 
         private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Zariadenie dev = nacitajZariadenie(deviceComboBox.SelectedItem.ToString());
+            
+            Senzor dev = nacitajZariadenie(deviceComboBox.SelectedItem.ToString());
             hryBox.SelectedIndex = hryBox.FindStringExact(dev.Volby);
-            if (dev.Start == "true")ledLabel.ForeColor = Color.Green;
-            else  ledLabel.ForeColor = Color.Red;
+            if (dev.Start == "true") ledLabel.ForeColor = Color.Green;
+            else ledLabel.ForeColor = Color.Red;
+            
         }
-        Zariadenie nacitajZariadenie(string id) {
+        Senzor nacitajZariadenie(string id) {
             FirebaseResponse nacitac = client.Get("Zariadenie/" + id);
-            Zariadenie dev = nacitac.ResultAs<Zariadenie>();
+            Senzor dev = nacitac.ResultAs<Senzor>();
             return dev;
         }
 

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace IoT_driver_firebase
 {
-    class Zariadenie
+    class Senzor
     {
+        //public string Zariadenie { get; set; }
         public string Id { get; set; }
         
         public string Volby { get; set; }
