@@ -44,11 +44,6 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Tlieskaj");
             hryBox.Items.Add("Dotyk");
         }
-        private async void pocetPrvkov() {
-            FirebaseResponse response = await client.GetAsync("Zariadenie");
-            Senzor[] todo = response.ResultAs<Senzor[]>();
-            MessageBox.Show(todo[2].Volby);
-        }
         private Senzor[] nacitajDatabazu() {
             FirebaseResponse response = client.Get("Zariadenie");
             Senzor[] todo = response.ResultAs<Senzor[]>();
@@ -89,9 +84,6 @@ namespace IoT_driver_firebase
             nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex + 1]);
             //MessageBox.Show("Data odoslane");
         }
-
-
-
         private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             hryBox.SelectedIndex = hryBox.FindStringExact(databazaSenzorov[deviceComboBox.SelectedIndex + 1].Volby);
