@@ -10,7 +10,7 @@ namespace IoT_driver_firebase
     {
         public string Id { get; set; }
         
-        public string Volby { get; set; }
+        public int Volby { get; set; }
 
         public bool Start { get; set; }
 

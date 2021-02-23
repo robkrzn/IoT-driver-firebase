@@ -89,13 +89,16 @@ namespace IoT_driver_firebase
         }
         private void hryBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            databazaSenzorov[deviceComboBox.SelectedIndex].Volby = hryBox.SelectedItem.ToString();
+            //databazaSenzorov[deviceComboBox.SelectedIndex].Volby = hryBox.SelectedItem.ToString();
+            databazaSenzorov[deviceComboBox.SelectedIndex].Volby = hryBox.SelectedIndex;
             nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
             //MessageBox.Show("Data odoslane");
         }
         private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            hryBox.SelectedIndex = hryBox.FindStringExact(databazaSenzorov[deviceComboBox.SelectedIndex].Volby);
+            //hryBox.SelectedIndex = hryBox.FindStringExact(databazaSenzorov[deviceComboBox.SelectedIndex].Volby);
+            //hryBox.SelectedIndex = hryBox.FindStringExact(databazaSenzorov[deviceComboBox.SelectedIndex].Volby.ToString());
+            hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
             if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledLabel.ForeColor = Color.Green;
             else ledLabel.ForeColor = Color.Red;
             
@@ -126,6 +129,5 @@ namespace IoT_driver_firebase
             }
         }
 
-        
     }
 }
