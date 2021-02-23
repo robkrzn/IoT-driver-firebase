@@ -35,11 +35,12 @@ namespace IoT_driver_firebase
             this.Zariadenie = new System.Windows.Forms.Label();
             this.deviceComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.stopButton = new System.Windows.Forms.Button();
             this.ledLabel = new System.Windows.Forms.Label();
             this.hryBox = new System.Windows.Forms.ComboBox();
             this.startAllButton = new System.Windows.Forms.Button();
-            this.stopButton = new System.Windows.Forms.Button();
             this.stopAllButton = new System.Windows.Forms.Button();
+            this.deviceDeleteButton = new System.Windows.Forms.Button();
             startGameButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -57,6 +58,7 @@ namespace IoT_driver_firebase
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.deviceDeleteButton);
             this.groupBox1.Controls.Add(this.Zariadenie);
             this.groupBox1.Controls.Add(this.deviceComboBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -83,6 +85,7 @@ namespace IoT_driver_firebase
             this.deviceComboBox.Size = new System.Drawing.Size(165, 21);
             this.deviceComboBox.TabIndex = 0;
             this.deviceComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceComboBox_SelectedIndexChanged);
+            this.deviceComboBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.deviceComboBox_MouseClick);
             // 
             // groupBox2
             // 
@@ -96,6 +99,16 @@ namespace IoT_driver_firebase
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nastavenie hry";
+            // 
+            // stopButton
+            // 
+            this.stopButton.Location = new System.Drawing.Point(138, 46);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 3;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // ledLabel
             // 
@@ -126,16 +139,6 @@ namespace IoT_driver_firebase
             this.startAllButton.UseVisualStyleBackColor = true;
             this.startAllButton.Click += new System.EventHandler(this.startAllButton_Click);
             // 
-            // stopButton
-            // 
-            this.stopButton.Location = new System.Drawing.Point(138, 46);
-            this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(75, 23);
-            this.stopButton.TabIndex = 3;
-            this.stopButton.Text = "Stop";
-            this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
-            // 
             // stopAllButton
             // 
             this.stopAllButton.Location = new System.Drawing.Point(165, 210);
@@ -145,6 +148,16 @@ namespace IoT_driver_firebase
             this.stopAllButton.Text = "Vypnut všetky";
             this.stopAllButton.UseVisualStyleBackColor = true;
             this.stopAllButton.Click += new System.EventHandler(this.stopAllButton_Click);
+            // 
+            // deviceDeleteButton
+            // 
+            this.deviceDeleteButton.Location = new System.Drawing.Point(282, 24);
+            this.deviceDeleteButton.Name = "deviceDeleteButton";
+            this.deviceDeleteButton.Size = new System.Drawing.Size(120, 23);
+            this.deviceDeleteButton.TabIndex = 2;
+            this.deviceDeleteButton.Text = "Vymazať zariadenie";
+            this.deviceDeleteButton.UseVisualStyleBackColor = true;
+            this.deviceDeleteButton.Click += new System.EventHandler(this.deviceDeleteButton_Click);
             // 
             // Form1
             // 
@@ -177,6 +190,7 @@ namespace IoT_driver_firebase
         private System.Windows.Forms.Label ledLabel;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button stopAllButton;
+        private System.Windows.Forms.Button deviceDeleteButton;
     }
 }
 
