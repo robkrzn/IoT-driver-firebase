@@ -45,11 +45,16 @@ namespace IoT_driver_firebase
         private void obnovDatabazu() {
             zoznamSenzorov = nacitajDatabazu();
             databazaSenzorov = zoznamSenzorov.Values.ToArray();
+            foreach (Senzor dev in databazaSenzorov) {
+                if (dev.Volby > hryBox.Items.Count)dev.Volby = 0;
+            }
+            int index = deviceComboBox.SelectedIndex;
             deviceComboBox.Items.Clear();
             for (int i = 0; i < databazaSenzorov.Length; i++)
             {
                 deviceComboBox.Items.Add(databazaSenzorov[i].Id);
             }
+            deviceComboBox.SelectedIndex = index;
         }
         private Dictionary<string,Senzor> nacitajDatabazu()
         {
@@ -60,17 +65,27 @@ namespace IoT_driver_firebase
         }
         private void startGameButton_Click(object sender, EventArgs e)
         {
-            databazaSenzorov[deviceComboBox.SelectedIndex].Start = true;
-            nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
-            ledLabel.ForeColor = Color.Green;
-            //MessageBox.Show("Zariadenie zapnuté");
+            try
+            {
+                databazaSenzorov[deviceComboBox.SelectedIndex].Start = true;
+                nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
+                ledOvalShape.BackColor = Color.Green;
+            }
+            catch {
+                MessageBox.Show("Nevybral si žiadne zariadenie");
+            }
         }
         private void stopButton_Click(object sender, EventArgs e)
         {
-            databazaSenzorov[deviceComboBox.SelectedIndex].Start = false;
-            nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
-            ledLabel.ForeColor = Color.Red;
-            //MessageBox.Show("Zariadenie zapnuté");
+            try
+            {
+                databazaSenzorov[deviceComboBox.SelectedIndex].Start = false;
+                nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
+                ledOvalShape.BackColor = Color.Red;
+            }
+            catch {
+                MessageBox.Show("Nevybral si žiadne zariadenie");
+            }
         }
         private void startAllButton_Click(object sender, EventArgs e)
         {
@@ -89,19 +104,16 @@ namespace IoT_driver_firebase
         }
         private void hryBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //databazaSenzorov[deviceComboBox.SelectedIndex].Volby = hryBox.SelectedItem.ToString();
             databazaSenzorov[deviceComboBox.SelectedIndex].Volby = hryBox.SelectedIndex;
             nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
             //MessageBox.Show("Data odoslane");
         }
         private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //hryBox.SelectedIndex = hryBox.FindStringExact(databazaSenzorov[deviceComboBox.SelectedIndex].Volby);
-            //hryBox.SelectedIndex = hryBox.FindStringExact(databazaSenzorov[deviceComboBox.SelectedIndex].Volby.ToString());
             hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
-            if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledLabel.ForeColor = Color.Green;
-            else ledLabel.ForeColor = Color.Red;
-            
+            if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
+            else ledOvalShape.BackColor = Color.Red;
+
         }
         private void deviceComboBox_MouseClick(object sender, MouseEventArgs e)
         {
@@ -129,5 +141,13 @@ namespace IoT_driver_firebase
             }
         }
 
+        private void obnovButton_Click(object sender, EventArgs e)
+        {
+            //int index = deviceComboBox.SelectedIndex;
+            obnovDatabazu();
+            hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
+            if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
+            else ledOvalShape.BackColor = Color.Red;
+        }
     }
 }
