@@ -41,6 +41,9 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Miesaj farby");
             hryBox.Items.Add("Tlieskaj");
             hryBox.Items.Add("Dotyk");
+
+            deviceComboBox.SelectedIndex = 0;
+            
         }
         private void obnovDatabazu() {
             zoznamSenzorov = nacitajDatabazu();
@@ -48,7 +51,7 @@ namespace IoT_driver_firebase
             foreach (Senzor dev in databazaSenzorov) {
                 if (dev.Volby > hryBox.Items.Count)dev.Volby = 0;
             }
-            int index = deviceComboBox.SelectedIndex;
+            int index = deviceComboBox.SelectedIndex; 
             deviceComboBox.Items.Clear();
             for (int i = 0; i < databazaSenzorov.Length; i++)
             {
@@ -143,7 +146,6 @@ namespace IoT_driver_firebase
 
         private void obnovButton_Click(object sender, EventArgs e)
         {
-            //int index = deviceComboBox.SelectedIndex;
             obnovDatabazu();
             hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
             if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
