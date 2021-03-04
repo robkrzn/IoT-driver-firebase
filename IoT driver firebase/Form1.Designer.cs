@@ -37,14 +37,19 @@ namespace IoT_driver_firebase
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.stopButton = new System.Windows.Forms.Button();
             this.hryBox = new System.Windows.Forms.ComboBox();
-            this.startAllButton = new System.Windows.Forms.Button();
-            this.stopAllButton = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.ledOvalShape = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.startAllButton = new System.Windows.Forms.Button();
+            this.stopAllButton = new System.Windows.Forms.Button();
             this.obnovButton = new System.Windows.Forms.Button();
+            this.rebricekDataGridView = new System.Windows.Forms.DataGridView();
+            this.poradieStlpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.menoStlpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.casStlpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
             startGameButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rebricekDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // startGameButton
@@ -120,26 +125,6 @@ namespace IoT_driver_firebase
             this.hryBox.TabIndex = 0;
             this.hryBox.SelectedIndexChanged += new System.EventHandler(this.hryBox_SelectedIndexChanged);
             // 
-            // startAllButton
-            // 
-            this.startAllButton.Location = new System.Drawing.Point(12, 192);
-            this.startAllButton.Name = "startAllButton";
-            this.startAllButton.Size = new System.Drawing.Size(141, 23);
-            this.startAllButton.TabIndex = 2;
-            this.startAllButton.Text = "Zapnúť všetky";
-            this.startAllButton.UseVisualStyleBackColor = true;
-            this.startAllButton.Click += new System.EventHandler(this.startAllButton_Click);
-            // 
-            // stopAllButton
-            // 
-            this.stopAllButton.Location = new System.Drawing.Point(12, 221);
-            this.stopAllButton.Name = "stopAllButton";
-            this.stopAllButton.Size = new System.Drawing.Size(141, 23);
-            this.stopAllButton.TabIndex = 3;
-            this.stopAllButton.Text = "Vypnut všetky";
-            this.stopAllButton.UseVisualStyleBackColor = true;
-            this.stopAllButton.Click += new System.EventHandler(this.stopAllButton_Click);
-            // 
             // shapeContainer1
             // 
             this.shapeContainer1.Location = new System.Drawing.Point(3, 16);
@@ -161,6 +146,26 @@ namespace IoT_driver_firebase
             this.ledOvalShape.SelectionColor = System.Drawing.SystemColors.ButtonShadow;
             this.ledOvalShape.Size = new System.Drawing.Size(30, 30);
             // 
+            // startAllButton
+            // 
+            this.startAllButton.Location = new System.Drawing.Point(12, 192);
+            this.startAllButton.Name = "startAllButton";
+            this.startAllButton.Size = new System.Drawing.Size(141, 23);
+            this.startAllButton.TabIndex = 2;
+            this.startAllButton.Text = "Zapnúť všetky";
+            this.startAllButton.UseVisualStyleBackColor = true;
+            this.startAllButton.Click += new System.EventHandler(this.startAllButton_Click);
+            // 
+            // stopAllButton
+            // 
+            this.stopAllButton.Location = new System.Drawing.Point(12, 221);
+            this.stopAllButton.Name = "stopAllButton";
+            this.stopAllButton.Size = new System.Drawing.Size(141, 23);
+            this.stopAllButton.TabIndex = 3;
+            this.stopAllButton.Text = "Vypnut všetky";
+            this.stopAllButton.UseVisualStyleBackColor = true;
+            this.stopAllButton.Click += new System.EventHandler(this.stopAllButton_Click);
+            // 
             // obnovButton
             // 
             this.obnovButton.Location = new System.Drawing.Point(351, 192);
@@ -171,11 +176,43 @@ namespace IoT_driver_firebase
             this.obnovButton.UseVisualStyleBackColor = true;
             this.obnovButton.Click += new System.EventHandler(this.obnovButton_Click);
             // 
+            // rebricekDataGridView
+            // 
+            this.rebricekDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.rebricekDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.poradieStlpec,
+            this.menoStlpec,
+            this.casStlpec});
+            this.rebricekDataGridView.Location = new System.Drawing.Point(50, 345);
+            this.rebricekDataGridView.Name = "rebricekDataGridView";
+            this.rebricekDataGridView.ReadOnly = true;
+            this.rebricekDataGridView.Size = new System.Drawing.Size(344, 202);
+            this.rebricekDataGridView.TabIndex = 5;
+            // 
+            // poradieStlpec
+            // 
+            this.poradieStlpec.HeaderText = "Poradie";
+            this.poradieStlpec.Name = "poradieStlpec";
+            this.poradieStlpec.ReadOnly = true;
+            // 
+            // menoStlpec
+            // 
+            this.menoStlpec.HeaderText = "Meno";
+            this.menoStlpec.Name = "menoStlpec";
+            this.menoStlpec.ReadOnly = true;
+            // 
+            // casStlpec
+            // 
+            this.casStlpec.HeaderText = "Čas";
+            this.casStlpec.Name = "casStlpec";
+            this.casStlpec.ReadOnly = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 260);
+            this.ClientSize = new System.Drawing.Size(436, 569);
+            this.Controls.Add(this.rebricekDataGridView);
             this.Controls.Add(this.obnovButton);
             this.Controls.Add(this.stopAllButton);
             this.Controls.Add(this.startAllButton);
@@ -186,6 +223,7 @@ namespace IoT_driver_firebase
             this.Text = "IoT Driver";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.rebricekDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -203,6 +241,10 @@ namespace IoT_driver_firebase
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.OvalShape ledOvalShape;
         private System.Windows.Forms.Button obnovButton;
+        private System.Windows.Forms.DataGridView rebricekDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn poradieStlpec;
+        private System.Windows.Forms.DataGridViewTextBoxColumn menoStlpec;
+        private System.Windows.Forms.DataGridViewTextBoxColumn casStlpec;
     }
 }
 

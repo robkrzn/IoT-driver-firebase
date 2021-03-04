@@ -24,6 +24,7 @@ namespace IoT_driver_firebase
         private IFirebaseClient client;
         private IFirebaseConfig config;
         private Senzor[] databazaSenzorov;
+        private CasZaznam[] rebricek;
         private Dictionary<string, Senzor> zoznamSenzorov;
         public Form1()
         {
@@ -43,6 +44,20 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Dotyk");
 
             deviceComboBox.SelectedIndex = 0;
+            nacitajRebricek();
+        }
+        private void nacitajRebricek() {
+            FirebaseResponse response = client.Get("Rebricek");
+            Dictionary<string, string> todo = response.ResultAs<Dictionary<string, string>>();
+            this.rebricek = new CasZaznam[todo.Count+1];
+            for (int i = 0; i < todo.Count; i++) {
+                CasZaznam pom = new CasZaznam();
+                pom.Meno = todo.ElementAt(i).Key;
+                pom.Cas = todo.ElementAt(i).Value;
+                this.rebricek[i] = pom;
+                rebricekDataGridView.Rows.Add(i, todo.ElementAt(i).Key, todo.ElementAt(i).Value);
+            }
+            
             
         }
         private void obnovDatabazu() {
@@ -141,6 +156,8 @@ namespace IoT_driver_firebase
                     var vymazavac = client.Delete("Zariadenie/" + deviceComboBox.SelectedItem.ToString());
                     MessageBox.Show("Zariadenie bolo vymazane");
                 }
+                deviceComboBox.SelectedIndex = 0;
+                obnovDatabazu();
             }
         }
 
