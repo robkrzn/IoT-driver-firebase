@@ -54,17 +54,19 @@ namespace IoT_driver_firebase
             rebricekDataGridView.Rows.Clear();
             FirebaseResponse response = client.Get("Rebricek");
             Dictionary<string, string> todo = response.ResultAs<Dictionary<string, string>>();
-            this.rebricek = new CasZaznam[todo.Count+1];
+            this.rebricek = new CasZaznam[todo.Count + 1];
             for (int i = 0; i < todo.Count; i++) {
                 CasZaznam pom = new CasZaznam();
                 pom.Meno = todo.ElementAt(i).Key;
                 pom.Cas = todo.ElementAt(i).Value;
                 this.rebricek[i] = pom;
-                rebricekDataGridView.Rows.Add(null,todo.ElementAt(i).Key, todo.ElementAt(i).Value);
+                rebricekDataGridView.Rows.Add(null, todo.ElementAt(i).Key, todo.ElementAt(i).Value);
             }
             this.rebricekDataGridView.Sort(casStlpec, ListSortDirection.Ascending);
-            for (int i = 0; i < this.rebricekDataGridView.RowCount-1; i++) {
-                this.rebricekDataGridView.Rows[i].Cells[0].Value=i+1;
+            for (int i = 0; i < this.rebricekDataGridView.RowCount - 1; i++) {
+                this.rebricekDataGridView.Rows[i].Cells[0].Value = i + 1;
+                if (i == 0) this.rebricekDataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;
+                if (i == 1 || i == 2) this.rebricekDataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
             }
 
         }
