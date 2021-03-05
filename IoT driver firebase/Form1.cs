@@ -64,7 +64,7 @@ namespace IoT_driver_firebase
             }
             this.rebricekDataGridView.Sort(casStlpec, ListSortDirection.Ascending);
             for (int i = 0; i < this.rebricekDataGridView.RowCount-1; i++) {
-                this.rebricekDataGridView.Rows[i].Cells[0].Value=i;
+                this.rebricekDataGridView.Rows[i].Cells[0].Value=i+1;
             }
 
         }
