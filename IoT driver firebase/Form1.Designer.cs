@@ -29,6 +29,7 @@ namespace IoT_driver_firebase
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Button startGameButton;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -43,13 +44,22 @@ namespace IoT_driver_firebase
             this.stopAllButton = new System.Windows.Forms.Button();
             this.obnovButton = new System.Windows.Forms.Button();
             this.rebricekDataGridView = new System.Windows.Forms.DataGridView();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.menoTextBox = new System.Windows.Forms.TextBox();
+            this.stopkyStartButton = new System.Windows.Forms.Button();
+            this.stopkyStopButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.casLabel = new System.Windows.Forms.Label();
+            this.stopkyTimer = new System.Windows.Forms.Timer(this.components);
             this.poradieStlpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menoStlpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.casStlpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteCasbutton = new System.Windows.Forms.Button();
             startGameButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rebricekDataGridView)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // startGameButton
@@ -183,36 +193,123 @@ namespace IoT_driver_firebase
             this.poradieStlpec,
             this.menoStlpec,
             this.casStlpec});
-            this.rebricekDataGridView.Location = new System.Drawing.Point(50, 345);
+            this.rebricekDataGridView.Location = new System.Drawing.Point(18, 67);
             this.rebricekDataGridView.Name = "rebricekDataGridView";
             this.rebricekDataGridView.ReadOnly = true;
-            this.rebricekDataGridView.Size = new System.Drawing.Size(344, 202);
+            this.rebricekDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.rebricekDataGridView.Size = new System.Drawing.Size(276, 185);
             this.rebricekDataGridView.TabIndex = 5;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.deleteCasbutton);
+            this.groupBox3.Controls.Add(this.rebricekDataGridView);
+            this.groupBox3.Controls.Add(this.casLabel);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.stopkyStopButton);
+            this.groupBox3.Controls.Add(this.stopkyStartButton);
+            this.groupBox3.Controls.Add(this.menoTextBox);
+            this.groupBox3.Location = new System.Drawing.Point(15, 265);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(405, 268);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Rebríček";
+            // 
+            // menoTextBox
+            // 
+            this.menoTextBox.Location = new System.Drawing.Point(18, 44);
+            this.menoTextBox.Name = "menoTextBox";
+            this.menoTextBox.Size = new System.Drawing.Size(136, 20);
+            this.menoTextBox.TabIndex = 6;
+            // 
+            // stopkyStartButton
+            // 
+            this.stopkyStartButton.Location = new System.Drawing.Point(300, 96);
+            this.stopkyStartButton.Name = "stopkyStartButton";
+            this.stopkyStartButton.Size = new System.Drawing.Size(75, 23);
+            this.stopkyStartButton.TabIndex = 7;
+            this.stopkyStartButton.Text = "Start";
+            this.stopkyStartButton.UseVisualStyleBackColor = true;
+            this.stopkyStartButton.Click += new System.EventHandler(this.stopkyStartButton_Click);
+            // 
+            // stopkyStopButton
+            // 
+            this.stopkyStopButton.Location = new System.Drawing.Point(300, 67);
+            this.stopkyStopButton.Name = "stopkyStopButton";
+            this.stopkyStopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopkyStopButton.TabIndex = 8;
+            this.stopkyStopButton.Text = "Stop";
+            this.stopkyStopButton.UseVisualStyleBackColor = true;
+            this.stopkyStopButton.Click += new System.EventHandler(this.stopkyStopButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Meno ";
+            // 
+            // casLabel
+            // 
+            this.casLabel.AutoSize = true;
+            this.casLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.casLabel.Location = new System.Drawing.Point(177, 39);
+            this.casLabel.Name = "casLabel";
+            this.casLabel.Size = new System.Drawing.Size(117, 25);
+            this.casLabel.TabIndex = 10;
+            this.casLabel.Text = "00:00:00.00";
+            // 
+            // stopkyTimer
+            // 
+            this.stopkyTimer.Enabled = true;
+            this.stopkyTimer.Interval = 1000;
+            this.stopkyTimer.Tick += new System.EventHandler(this.stopkyTimer_Tick);
             // 
             // poradieStlpec
             // 
+            this.poradieStlpec.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.poradieStlpec.HeaderText = "Poradie";
             this.poradieStlpec.Name = "poradieStlpec";
             this.poradieStlpec.ReadOnly = true;
+            this.poradieStlpec.Width = 50;
             // 
             // menoStlpec
             // 
+            this.menoStlpec.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.menoStlpec.HeaderText = "Meno";
             this.menoStlpec.Name = "menoStlpec";
             this.menoStlpec.ReadOnly = true;
             // 
             // casStlpec
             // 
+            this.casStlpec.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.casStlpec.FillWeight = 65F;
             this.casStlpec.HeaderText = "Čas";
             this.casStlpec.Name = "casStlpec";
             this.casStlpec.ReadOnly = true;
+            this.casStlpec.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.casStlpec.Width = 65;
+            // 
+            // deleteCasbutton
+            // 
+            this.deleteCasbutton.Cursor = System.Windows.Forms.Cursors.No;
+            this.deleteCasbutton.Location = new System.Drawing.Point(300, 229);
+            this.deleteCasbutton.Name = "deleteCasbutton";
+            this.deleteCasbutton.Size = new System.Drawing.Size(75, 23);
+            this.deleteCasbutton.TabIndex = 11;
+            this.deleteCasbutton.Text = "Vymazať záznam";
+            this.deleteCasbutton.UseVisualStyleBackColor = true;
+            this.deleteCasbutton.Click += new System.EventHandler(this.deleteCasbutton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(436, 569);
-            this.Controls.Add(this.rebricekDataGridView);
+            this.ClientSize = new System.Drawing.Size(436, 549);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.obnovButton);
             this.Controls.Add(this.stopAllButton);
             this.Controls.Add(this.startAllButton);
@@ -224,6 +321,8 @@ namespace IoT_driver_firebase
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rebricekDataGridView)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -242,9 +341,17 @@ namespace IoT_driver_firebase
         private Microsoft.VisualBasic.PowerPacks.OvalShape ledOvalShape;
         private System.Windows.Forms.Button obnovButton;
         private System.Windows.Forms.DataGridView rebricekDataGridView;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label casLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button stopkyStopButton;
+        private System.Windows.Forms.Button stopkyStartButton;
+        private System.Windows.Forms.TextBox menoTextBox;
+        private System.Windows.Forms.Timer stopkyTimer;
         private System.Windows.Forms.DataGridViewTextBoxColumn poradieStlpec;
         private System.Windows.Forms.DataGridViewTextBoxColumn menoStlpec;
         private System.Windows.Forms.DataGridViewTextBoxColumn casStlpec;
+        private System.Windows.Forms.Button deleteCasbutton;
     }
 }
 

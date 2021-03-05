@@ -11,11 +11,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
+using System.Diagnostics;
+
 
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
-
+using System.Globalization;
 
 namespace IoT_driver_firebase
 {
@@ -26,6 +28,7 @@ namespace IoT_driver_firebase
         private Senzor[] databazaSenzorov;
         private CasZaznam[] rebricek;
         private Dictionary<string, Senzor> zoznamSenzorov;
+        private Stopwatch stopky;
         public Form1()
         {
             InitializeComponent();
@@ -45,8 +48,10 @@ namespace IoT_driver_firebase
 
             deviceComboBox.SelectedIndex = 0;
             nacitajRebricek();
+            this.stopky = new Stopwatch();
         }
         private void nacitajRebricek() {
+            rebricekDataGridView.Rows.Clear();
             FirebaseResponse response = client.Get("Rebricek");
             Dictionary<string, string> todo = response.ResultAs<Dictionary<string, string>>();
             this.rebricek = new CasZaznam[todo.Count+1];
@@ -55,10 +60,13 @@ namespace IoT_driver_firebase
                 pom.Meno = todo.ElementAt(i).Key;
                 pom.Cas = todo.ElementAt(i).Value;
                 this.rebricek[i] = pom;
-                rebricekDataGridView.Rows.Add(i, todo.ElementAt(i).Key, todo.ElementAt(i).Value);
+                rebricekDataGridView.Rows.Add(null,todo.ElementAt(i).Key, todo.ElementAt(i).Value);
             }
-            
-            
+            this.rebricekDataGridView.Sort(casStlpec, ListSortDirection.Ascending);
+            for (int i = 0; i < this.rebricekDataGridView.RowCount-1; i++) {
+                this.rebricekDataGridView.Rows[i].Cells[0].Value=i;
+            }
+
         }
         private void obnovDatabazu() {
             zoznamSenzorov = nacitajDatabazu();
@@ -167,6 +175,41 @@ namespace IoT_driver_firebase
             hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
             if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
             else ledOvalShape.BackColor = Color.Red;
+        }
+
+        private void stopkyStartButton_Click(object sender, EventArgs e)
+        {
+            if (menoTextBox.Text != "")
+            {
+                this.stopky.Start();
+            }
+            else MessageBox.Show("Zabudol si zadať meno!");
+        }
+
+        private void stopkyStopButton_Click(object sender, EventArgs e)
+        {
+            this.stopky.Stop();
+            CasZaznam zaznam = new CasZaznam();
+            zaznam.Meno = menoTextBox.Text;
+            zaznam.Cas = this.stopky.Elapsed.ToString(@"hh\:mm\:ss");
+            client.Set("Rebricek/" + zaznam.Meno, zaznam.Cas);
+            nacitajRebricek();
+        }
+
+        private void stopkyTimer_Tick(object sender, EventArgs e)
+        {
+            casLabel.Text = this.stopky.Elapsed.ToString(@"hh\:mm\:ss");
+        }
+
+        private void deleteCasbutton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Naozaj cheš odstrániť záznam " + this.rebricekDataGridView.SelectedRows[0].Cells[1].Value.ToString()+" - "+this.rebricekDataGridView.SelectedRows[0].Cells[2].Value.ToString() + " ?", "Odstrániť zariadenie", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                client.Delete("Rebricek/" + this.rebricekDataGridView.SelectedRows[0].Cells[1].Value.ToString());
+                MessageBox.Show("Záznam bol odstránený");
+                nacitajRebricek();
+            }
         }
     }
 }

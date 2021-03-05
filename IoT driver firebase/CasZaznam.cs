@@ -11,5 +11,7 @@ namespace IoT_driver_firebase
         public string Meno { get; set; }
 
         public string Cas { get; set;  }
+
+        //public DateTime Cas { get; set; }
     }
 }
