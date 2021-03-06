@@ -55,11 +55,14 @@ namespace IoT_driver_firebase
             this.stopkyStartButton = new System.Windows.Forms.Button();
             this.menoTextBox = new System.Windows.Forms.TextBox();
             this.stopkyTimer = new System.Windows.Forms.Timer(this.components);
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.postupVHreProgressBar = new System.Windows.Forms.ProgressBar();
             startGameButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rebricekDataGridView)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // startGameButton
@@ -75,6 +78,7 @@ namespace IoT_driver_firebase
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.posledneCheckBox);
+            this.groupBox1.Controls.Add(this.obnovButton);
             this.groupBox1.Controls.Add(this.deviceDeleteButton);
             this.groupBox1.Controls.Add(this.deviceComboBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -117,6 +121,8 @@ namespace IoT_driver_firebase
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.stopAllButton);
+            this.groupBox2.Controls.Add(this.startAllButton);
             this.groupBox2.Controls.Add(this.stopButton);
             this.groupBox2.Controls.Add(startGameButton);
             this.groupBox2.Controls.Add(this.hryBox);
@@ -170,9 +176,9 @@ namespace IoT_driver_firebase
             // 
             // startAllButton
             // 
-            this.startAllButton.Location = new System.Drawing.Point(12, 192);
+            this.startAllButton.Location = new System.Drawing.Point(303, 16);
             this.startAllButton.Name = "startAllButton";
-            this.startAllButton.Size = new System.Drawing.Size(141, 23);
+            this.startAllButton.Size = new System.Drawing.Size(97, 24);
             this.startAllButton.TabIndex = 2;
             this.startAllButton.Text = "Zapnúť všetky";
             this.startAllButton.UseVisualStyleBackColor = true;
@@ -180,9 +186,9 @@ namespace IoT_driver_firebase
             // 
             // stopAllButton
             // 
-            this.stopAllButton.Location = new System.Drawing.Point(12, 221);
+            this.stopAllButton.Location = new System.Drawing.Point(303, 46);
             this.stopAllButton.Name = "stopAllButton";
-            this.stopAllButton.Size = new System.Drawing.Size(141, 23);
+            this.stopAllButton.Size = new System.Drawing.Size(97, 23);
             this.stopAllButton.TabIndex = 3;
             this.stopAllButton.Text = "Vypnut všetky";
             this.stopAllButton.UseVisualStyleBackColor = true;
@@ -190,9 +196,9 @@ namespace IoT_driver_firebase
             // 
             // obnovButton
             // 
-            this.obnovButton.Location = new System.Drawing.Point(351, 192);
+            this.obnovButton.Location = new System.Drawing.Point(210, 18);
             this.obnovButton.Name = "obnovButton";
-            this.obnovButton.Size = new System.Drawing.Size(69, 52);
+            this.obnovButton.Size = new System.Drawing.Size(62, 24);
             this.obnovButton.TabIndex = 4;
             this.obnovButton.Text = "Obnoviť databázu";
             this.obnovButton.UseVisualStyleBackColor = true;
@@ -211,6 +217,7 @@ namespace IoT_driver_firebase
             this.rebricekDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.rebricekDataGridView.Size = new System.Drawing.Size(276, 185);
             this.rebricekDataGridView.TabIndex = 5;
+            this.rebricekDataGridView.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rebricekDataGridView_CellContentDoubleClick);
             // 
             // poradieStlpec
             // 
@@ -245,9 +252,9 @@ namespace IoT_driver_firebase
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.stopkyStartButton);
             this.groupBox3.Controls.Add(this.menoTextBox);
-            this.groupBox3.Location = new System.Drawing.Point(15, 265);
+            this.groupBox3.Location = new System.Drawing.Point(15, 192);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(399, 268);
+            this.groupBox3.Size = new System.Drawing.Size(405, 267);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Rebríček";
@@ -305,15 +312,30 @@ namespace IoT_driver_firebase
             this.stopkyTimer.Interval = 1000;
             this.stopkyTimer.Tick += new System.EventHandler(this.stopkyTimer_Tick);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.postupVHreProgressBar);
+            this.groupBox4.Location = new System.Drawing.Point(15, 465);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(405, 56);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Stav";
+            // 
+            // postupVHreProgressBar
+            // 
+            this.postupVHreProgressBar.Location = new System.Drawing.Point(8, 19);
+            this.postupVHreProgressBar.Name = "postupVHreProgressBar";
+            this.postupVHreProgressBar.Size = new System.Drawing.Size(391, 23);
+            this.postupVHreProgressBar.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 549);
+            this.ClientSize = new System.Drawing.Size(434, 532);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.obnovButton);
-            this.Controls.Add(this.stopAllButton);
-            this.Controls.Add(this.startAllButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -325,6 +347,7 @@ namespace IoT_driver_firebase
             ((System.ComponentModel.ISupportInitialize)(this.rebricekDataGridView)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -354,6 +377,8 @@ namespace IoT_driver_firebase
         private System.Windows.Forms.DataGridViewTextBoxColumn casStlpec;
         private System.Windows.Forms.Button deleteCasbutton;
         private System.Windows.Forms.CheckBox posledneCheckBox;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.ProgressBar postupVHreProgressBar;
     }
 }
 
