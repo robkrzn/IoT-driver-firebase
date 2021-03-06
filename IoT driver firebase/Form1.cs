@@ -25,9 +25,10 @@ namespace IoT_driver_firebase
     {
         private IFirebaseClient client;
         private IFirebaseConfig config;
+        private FirebaseResponse response;
         private Senzor[] databazaSenzorov;
-        private CasZaznam[] rebricek;
         private Dictionary<string, Senzor> zoznamSenzorov;
+        private Dictionary<string, string> rebricekDic;
         private Stopwatch stopky;
         public Form1()
         {
@@ -52,15 +53,10 @@ namespace IoT_driver_firebase
         }
         private void nacitajRebricek() {
             rebricekDataGridView.Rows.Clear();
-            FirebaseResponse response = client.Get("Rebricek");
-            Dictionary<string, string> todo = response.ResultAs<Dictionary<string, string>>();
-            this.rebricek = new CasZaznam[todo.Count + 1];
-            for (int i = 0; i < todo.Count; i++) {
-                CasZaznam pom = new CasZaznam();
-                pom.Meno = todo.ElementAt(i).Key;
-                pom.Cas = todo.ElementAt(i).Value;
-                this.rebricek[i] = pom;
-                rebricekDataGridView.Rows.Add(null, todo.ElementAt(i).Key, todo.ElementAt(i).Value);
+            this.response = client.Get("Rebricek");
+            this.rebricekDic= response.ResultAs<Dictionary<string, string>>(); 
+            for (int i = 0; i < this.rebricekDic.Count; i++) {
+                rebricekDataGridView.Rows.Add(null, this.rebricekDic.ElementAt(i).Key, this.rebricekDic.ElementAt(i).Value);
             }
             this.rebricekDataGridView.Sort(casStlpec, ListSortDirection.Ascending);
             for (int i = 0; i < this.rebricekDataGridView.RowCount - 1; i++) {
@@ -71,7 +67,8 @@ namespace IoT_driver_firebase
 
         }
         private void obnovDatabazu() {
-            zoznamSenzorov = nacitajDatabazu();
+            this.response = client.Get("Zariadenie");
+            this.zoznamSenzorov = response.ResultAs<Dictionary<string, Senzor>>();
             databazaSenzorov = zoznamSenzorov.Values.ToArray();
             foreach (Senzor dev in databazaSenzorov) {
                 if (dev.Volby > hryBox.Items.Count)dev.Volby = 0;
@@ -83,13 +80,6 @@ namespace IoT_driver_firebase
                 deviceComboBox.Items.Add(databazaSenzorov[i].Id);
             }
             deviceComboBox.SelectedIndex = index;
-        }
-        private Dictionary<string,Senzor> nacitajDatabazu()
-        {
-            FirebaseResponse response = client.Get("Zariadenie");
-            //Senzor[] todo = response.ResultAs<Senzor[]>();
-            Dictionary<string, Senzor> todo = response.ResultAs<Dictionary<string, Senzor>>();
-            return todo;
         }
         private void startGameButton_Click(object sender, EventArgs e)
         {
@@ -134,7 +124,6 @@ namespace IoT_driver_firebase
         {
             databazaSenzorov[deviceComboBox.SelectedIndex].Volby = hryBox.SelectedIndex;
             nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
-            //MessageBox.Show("Data odoslane");
         }
         private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -148,12 +137,11 @@ namespace IoT_driver_firebase
             obnovDatabazu();
         }
         Senzor nacitajZariadenie(string id) {
-            FirebaseResponse nacitac = client.Get("Zariadenie/" + id);
-            Senzor dev = nacitac.ResultAs<Senzor>();
-            return dev;
+            this.response = client.Get("Zariadenie/" + id);
+            return this.response.ResultAs<Senzor>();
         }
         private void nastavovac(Senzor dev) {
-            var nastavovac = client.Set("Zariadenie/" + dev.Id, dev);
+            client.Set("Zariadenie/" + dev.Id, dev);
         }
 
         private void deviceDeleteButton_Click(object sender, EventArgs e)
@@ -163,7 +151,7 @@ namespace IoT_driver_firebase
                 DialogResult dialogResult = MessageBox.Show("Naozaj cheš odstrániť zariadenie " + deviceComboBox.SelectedItem.ToString() + " ?", "Odstrániť zariadenie", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    var vymazavac = client.Delete("Zariadenie/" + deviceComboBox.SelectedItem.ToString());
+                    client.Delete("Zariadenie/" + deviceComboBox.SelectedItem.ToString());
                     MessageBox.Show("Zariadenie bolo vymazane");
                 }
                 deviceComboBox.SelectedIndex = 0;
@@ -190,12 +178,16 @@ namespace IoT_driver_firebase
 
         private void stopkyStopButton_Click(object sender, EventArgs e)
         {
-            this.stopky.Stop();
-            CasZaznam zaznam = new CasZaznam();
-            zaznam.Meno = menoTextBox.Text;
-            zaznam.Cas = this.stopky.Elapsed.ToString(@"hh\:mm\:ss");
-            client.Set("Rebricek/" + zaznam.Meno, zaznam.Cas);
-            nacitajRebricek();
+            if (this.stopky.Elapsed.ToString(@"hh\:mm\:ss") != "00:00:00")
+            {
+                this.stopky.Stop();
+                client.Set("Rebricek/" + menoTextBox.Text, this.stopky.Elapsed.ToString(@"hh\:mm\:ss"));
+                MessageBox.Show(menoTextBox.Text+" mal/a čas "+ this.stopky.Elapsed.ToString(@"hh\:mm\:ss"));
+                nacitajRebricek();
+                this.stopky.Reset();
+                menoTextBox.Text = "";
+            }
+            else MessageBox.Show("Nieje čo zastaviť");
         }
 
         private void stopkyTimer_Tick(object sender, EventArgs e)
