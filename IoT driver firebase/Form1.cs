@@ -38,6 +38,7 @@ namespace IoT_driver_firebase
             if (this.client == null) {
                 MessageBox.Show("Chyba pripojenia");
             }
+            this.stopky = new Stopwatch();
             obnovDatabazu();
 
             hryBox.Items.Add("Svetelna brana");
@@ -48,8 +49,8 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Dotyk");
 
             deviceComboBox.SelectedIndex = 0;
+            
             nacitajRebricek();
-            this.stopky = new Stopwatch();
         }
         private void nacitajRebricek() {
             rebricekDataGridView.Rows.Clear();
@@ -130,7 +131,7 @@ namespace IoT_driver_firebase
             hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
             if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
             else ledOvalShape.BackColor = Color.Red;
-
+            posledneCheckBox.Checked = databazaSenzorov[deviceComboBox.SelectedIndex].Posledne;
         }
         private void deviceComboBox_MouseClick(object sender, MouseEventArgs e)
         {
@@ -165,31 +166,30 @@ namespace IoT_driver_firebase
             hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
             if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
             else ledOvalShape.BackColor = Color.Red;
+            posledneCheckBox.Checked = databazaSenzorov[deviceComboBox.SelectedIndex].Posledne;
         }
 
         private void stopkyStartButton_Click(object sender, EventArgs e)
         {
-            if (menoTextBox.Text != "")
+            if (stopkyStartButton.Text == "Start")
             {
-                this.stopky.Start();
+                if (menoTextBox.Text != "")
+                {
+                    this.stopky.Start();
+                    stopkyStartButton.Text = "Stop";
+                }
+                else MessageBox.Show("Zabudol si zadať meno!");
             }
-            else MessageBox.Show("Zabudol si zadať meno!");
-        }
-
-        private void stopkyStopButton_Click(object sender, EventArgs e)
-        {
-            if (this.stopky.Elapsed.ToString(@"hh\:mm\:ss") != "00:00:00")
-            {
+            else {
                 this.stopky.Stop();
                 client.Set("Rebricek/" + menoTextBox.Text, this.stopky.Elapsed.ToString(@"hh\:mm\:ss"));
-                MessageBox.Show(menoTextBox.Text+" mal/a čas "+ this.stopky.Elapsed.ToString(@"hh\:mm\:ss"));
+                MessageBox.Show(menoTextBox.Text + " mal/a čas " + this.stopky.Elapsed.ToString(@"hh\:mm\:ss"));
                 nacitajRebricek();
                 this.stopky.Reset();
                 menoTextBox.Text = "";
+                stopkyStartButton.Text = "Start";
             }
-            else MessageBox.Show("Nieje čo zastaviť");
         }
-
         private void stopkyTimer_Tick(object sender, EventArgs e)
         {
             casLabel.Text = this.stopky.Elapsed.ToString(@"hh\:mm\:ss");
@@ -204,6 +204,27 @@ namespace IoT_driver_firebase
                 MessageBox.Show("Záznam bol odstránený");
                 nacitajRebricek();
             }
+        }
+
+        private void posledneCheckBox_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            if (posledneCheckBox.Checked == true)
+            {
+                DialogResult dialogResult = MessageBox.Show("Prajete si zariadenie '"+ databazaSenzorov[deviceComboBox.SelectedIndex].Id  + "' nastaviť ako posledné? ", "Posledne", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    for (int i = 0; i < databazaSenzorov.Length; i++)
+                    {
+                        if (i != deviceComboBox.SelectedIndex)
+                        {
+                            databazaSenzorov[i].Posledne = false;
+                            nastavovac(databazaSenzorov[i]);
+                        }
+                    }
+                }
+            }
+            databazaSenzorov[deviceComboBox.SelectedIndex].Posledne = posledneCheckBox.Checked;
+            nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
         }
     }
 }

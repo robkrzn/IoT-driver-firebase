@@ -14,5 +14,9 @@ namespace IoT_driver_firebase
 
         public bool Start { get; set; }
 
+        public bool Hotovo { get; set; }
+
+        public bool Posledne { get; set; }
+
     }
 }

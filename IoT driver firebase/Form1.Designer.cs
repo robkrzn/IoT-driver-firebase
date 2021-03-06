@@ -33,6 +33,7 @@ namespace IoT_driver_firebase
             System.Windows.Forms.Button startGameButton;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.posledneCheckBox = new System.Windows.Forms.CheckBox();
             this.deviceDeleteButton = new System.Windows.Forms.Button();
             this.deviceComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -51,7 +52,6 @@ namespace IoT_driver_firebase
             this.deleteCasbutton = new System.Windows.Forms.Button();
             this.casLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.stopkyStopButton = new System.Windows.Forms.Button();
             this.stopkyStartButton = new System.Windows.Forms.Button();
             this.menoTextBox = new System.Windows.Forms.TextBox();
             this.stopkyTimer = new System.Windows.Forms.Timer(this.components);
@@ -74,6 +74,7 @@ namespace IoT_driver_firebase
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.posledneCheckBox);
             this.groupBox1.Controls.Add(this.deviceDeleteButton);
             this.groupBox1.Controls.Add(this.deviceComboBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -82,6 +83,17 @@ namespace IoT_driver_firebase
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Vyber zariadenie";
+            // 
+            // posledneCheckBox
+            // 
+            this.posledneCheckBox.AutoSize = true;
+            this.posledneCheckBox.Location = new System.Drawing.Point(281, 51);
+            this.posledneCheckBox.Name = "posledneCheckBox";
+            this.posledneCheckBox.Size = new System.Drawing.Size(121, 17);
+            this.posledneCheckBox.TabIndex = 3;
+            this.posledneCheckBox.Text = "Posledné zariadenie";
+            this.posledneCheckBox.UseVisualStyleBackColor = true;
+            this.posledneCheckBox.MouseCaptureChanged += new System.EventHandler(this.posledneCheckBox_MouseCaptureChanged);
             // 
             // deviceDeleteButton
             // 
@@ -193,7 +205,7 @@ namespace IoT_driver_firebase
             this.poradieStlpec,
             this.menoStlpec,
             this.casStlpec});
-            this.rebricekDataGridView.Location = new System.Drawing.Point(18, 67);
+            this.rebricekDataGridView.Location = new System.Drawing.Point(6, 68);
             this.rebricekDataGridView.Name = "rebricekDataGridView";
             this.rebricekDataGridView.ReadOnly = true;
             this.rebricekDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -231,12 +243,11 @@ namespace IoT_driver_firebase
             this.groupBox3.Controls.Add(this.rebricekDataGridView);
             this.groupBox3.Controls.Add(this.casLabel);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.stopkyStopButton);
             this.groupBox3.Controls.Add(this.stopkyStartButton);
             this.groupBox3.Controls.Add(this.menoTextBox);
             this.groupBox3.Location = new System.Drawing.Point(15, 265);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(405, 268);
+            this.groupBox3.Size = new System.Drawing.Size(399, 268);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Rebríček";
@@ -244,7 +255,7 @@ namespace IoT_driver_firebase
             // deleteCasbutton
             // 
             this.deleteCasbutton.Cursor = System.Windows.Forms.Cursors.No;
-            this.deleteCasbutton.Location = new System.Drawing.Point(300, 229);
+            this.deleteCasbutton.Location = new System.Drawing.Point(312, 230);
             this.deleteCasbutton.Name = "deleteCasbutton";
             this.deleteCasbutton.Size = new System.Drawing.Size(75, 23);
             this.deleteCasbutton.TabIndex = 11;
@@ -256,7 +267,7 @@ namespace IoT_driver_firebase
             // 
             this.casLabel.AutoSize = true;
             this.casLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.casLabel.Location = new System.Drawing.Point(177, 39);
+            this.casLabel.Location = new System.Drawing.Point(270, 14);
             this.casLabel.Name = "casLabel";
             this.casLabel.Size = new System.Drawing.Size(117, 25);
             this.casLabel.TabIndex = 10;
@@ -265,25 +276,15 @@ namespace IoT_driver_firebase
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 28);
+            this.label1.Location = new System.Drawing.Point(3, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Meno ";
             // 
-            // stopkyStopButton
-            // 
-            this.stopkyStopButton.Location = new System.Drawing.Point(300, 96);
-            this.stopkyStopButton.Name = "stopkyStopButton";
-            this.stopkyStopButton.Size = new System.Drawing.Size(75, 23);
-            this.stopkyStopButton.TabIndex = 8;
-            this.stopkyStopButton.Text = "Stop";
-            this.stopkyStopButton.UseVisualStyleBackColor = true;
-            this.stopkyStopButton.Click += new System.EventHandler(this.stopkyStopButton_Click);
-            // 
             // stopkyStartButton
             // 
-            this.stopkyStartButton.Location = new System.Drawing.Point(300, 67);
+            this.stopkyStartButton.Location = new System.Drawing.Point(207, 42);
             this.stopkyStartButton.Name = "stopkyStartButton";
             this.stopkyStartButton.Size = new System.Drawing.Size(75, 23);
             this.stopkyStartButton.TabIndex = 7;
@@ -293,7 +294,7 @@ namespace IoT_driver_firebase
             // 
             // menoTextBox
             // 
-            this.menoTextBox.Location = new System.Drawing.Point(18, 44);
+            this.menoTextBox.Location = new System.Drawing.Point(6, 45);
             this.menoTextBox.Name = "menoTextBox";
             this.menoTextBox.Size = new System.Drawing.Size(136, 20);
             this.menoTextBox.TabIndex = 6;
@@ -308,7 +309,7 @@ namespace IoT_driver_firebase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(436, 549);
+            this.ClientSize = new System.Drawing.Size(424, 549);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.obnovButton);
             this.Controls.Add(this.stopAllButton);
@@ -319,6 +320,7 @@ namespace IoT_driver_firebase
             this.Name = "Form1";
             this.Text = "IoT Driver";
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.rebricekDataGridView)).EndInit();
             this.groupBox3.ResumeLayout(false);
@@ -344,7 +346,6 @@ namespace IoT_driver_firebase
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label casLabel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button stopkyStopButton;
         private System.Windows.Forms.Button stopkyStartButton;
         private System.Windows.Forms.TextBox menoTextBox;
         private System.Windows.Forms.Timer stopkyTimer;
@@ -352,6 +353,7 @@ namespace IoT_driver_firebase
         private System.Windows.Forms.DataGridViewTextBoxColumn menoStlpec;
         private System.Windows.Forms.DataGridViewTextBoxColumn casStlpec;
         private System.Windows.Forms.Button deleteCasbutton;
+        private System.Windows.Forms.CheckBox posledneCheckBox;
     }
 }
 
