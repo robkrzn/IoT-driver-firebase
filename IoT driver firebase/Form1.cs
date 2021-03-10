@@ -48,6 +48,7 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Miesaj farby");
             hryBox.Items.Add("Tlieskaj");
             hryBox.Items.Add("Dotyk");
+            hryBox.Items.Add("Vzdialenosť");
 
             deviceComboBox.SelectedIndex = 0;
             
@@ -79,7 +80,11 @@ namespace IoT_driver_firebase
                 if (dev.Volby > hryBox.Items.Count)dev.Volby = 0;
                 deviceComboBox.Items.Add(dev.Id);
             }
-            deviceComboBox.SelectedIndex = index;
+            try
+            {
+                deviceComboBox.SelectedIndex = index;
+            }
+            catch { }
             postupVHreProgressBar.Maximum = databazaSenzorov.Length;
         }
         private void startGameButton_Click(object sender, EventArgs e)
