@@ -181,21 +181,23 @@ namespace IoT_driver_firebase
         {
             if (stopkyStartButton.Text == "Start")
             {
-                if (menoTextBox.Text != "")
+                bool posledneDev = false;
+                foreach (Senzor dev in this.databazaSenzorov){
+                    if (!dev.Posledne) posledneDev = !posledneDev;
+                }
+                if ((menoTextBox.Text != "") && !posledneDev)
                 {
                     bool vsetkyZap = false;
-                    bool posledneDev = false;
                     foreach (Senzor dev in this.databazaSenzorov) {
                         dev.Hotovo = false;
                         nastavovac(dev);
                         if (!dev.Start) vsetkyZap = true;
-                        if (!dev.Posledne) posledneDev = !posledneDev;
                     }
                     if (vsetkyZap) MessageBox.Show("Hra je zapnutá aj keď nie všetky zariadenie sú zapnuté");
-                    if (posledneDev) MessageBox.Show("Nieje nastavené posledné zariadenie");
                     this.stopky.Start();
                     stopkyStartButton.Text = "Stop";
                 }
+                else if(posledneDev) MessageBox.Show("Nieje nastavené posledné zariadenie");
                 else MessageBox.Show("Zabudol si zadať meno!");
             }
             else {
@@ -206,6 +208,7 @@ namespace IoT_driver_firebase
                 this.stopky.Reset();
                 menoTextBox.Text = "";
                 stopkyStartButton.Text = "Start";
+                postupVHreProgressBar.Value = 0;
             }
         }
         private void stopkyTimer_Tick(object sender, EventArgs e)
@@ -217,6 +220,7 @@ namespace IoT_driver_firebase
                     if(this.databazaSenzorov[i].Hotovo!=this.oldDatabazaSenzorov[i].Hotovo) postupVHreProgressBar.Increment(1);
                     if (this.databazaSenzorov[i].Posledne == true && this.databazaSenzorov[i].Hotovo == true)
                     {
+                        postupVHreProgressBar.Value = postupVHreProgressBar.Maximum;
                         stopkyStartButton_Click(sender, e);
                     }
                 }
