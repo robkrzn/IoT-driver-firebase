@@ -25,7 +25,7 @@ namespace IoT_driver_firebase
     {
         private IFirebaseClient client;
         private IFirebaseConfig config;
-        private FirebaseResponse response;
+        private FirebaseResponse opoved;
         private Senzor[] databazaSenzorov;
         private Senzor[] oldDatabazaSenzorov;
         private Dictionary<string, Senzor> zoznamSenzorov;
@@ -50,49 +50,49 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Dotyk");
             hryBox.Items.Add("Vzdialenosť");
 
-            deviceComboBox.SelectedIndex = 0;
+            zariadenieComboBox.SelectedIndex = 0;
             
             nacitajRebricek();
         }
         private void nacitajRebricek() {
-            rebricekDataGridView.Rows.Clear();
-            this.response = client.Get("Rebricek");
-            this.rebricekDic= response.ResultAs<Dictionary<string, string>>(); 
-            for (int i = 0; i < this.rebricekDic.Count; i++) {
+            rebricekDataGridView.Rows.Clear();  //vymazanie aktualneho rebricka
+            this.opoved = client.Get("Rebricek");   // ziskanie dat pod prvkom "Rebricek"
+            this.rebricekDic= opoved.ResultAs<Dictionary<string, string>>(); //formatovanie JSON dat do slovnika
+            for (int i = 0; i < this.rebricekDic.Count; i++) {  //naplnenie rebricka aktualnmi datami
                 rebricekDataGridView.Rows.Add(null, this.rebricekDic.ElementAt(i).Key, this.rebricekDic.ElementAt(i).Value);
             }
-            this.rebricekDataGridView.Sort(casStlpec, ListSortDirection.Ascending);
-            for (int i = 0; i < this.rebricekDataGridView.RowCount - 1; i++) {
-                this.rebricekDataGridView.Rows[i].Cells[0].Value = i + 1;
-                if (i == 0) this.rebricekDataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;
-                if (i == 1 || i == 2) this.rebricekDataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
+            this.rebricekDataGridView.Sort(casStlpec, ListSortDirection.Ascending); //zoradenie rebricka podla casu
+            for (int i = 0; i < this.rebricekDataGridView.RowCount - 1; i++) {  
+                this.rebricekDataGridView.Rows[i].Cells[0].Value = i + 1;  //doplnenie poriadia k prvom v rebricku
+                if (i == 0) this.rebricekDataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;    //farebne oznacenie prvych 3 miest
+                if (i == 1 || i == 2) this.rebricekDataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;    
             }
 
         }
         private void obnovDatabazu() {
-            this.oldDatabazaSenzorov = this.databazaSenzorov;
-            this.response = client.Get("Zariadenie");
-            this.zoznamSenzorov = response.ResultAs<Dictionary<string, Senzor>>();
-            this.databazaSenzorov = zoznamSenzorov.Values.ToArray();
-            int index = deviceComboBox.SelectedIndex;
-            deviceComboBox.Items.Clear();
-            foreach (Senzor dev in this.databazaSenzorov) {
-                if (dev.Volby > hryBox.Items.Count)dev.Volby = 0;
-                deviceComboBox.Items.Add(dev.Id);
+            this.oldDatabazaSenzorov = this.databazaSenzorov; //aktualna databaza sa ulozi do pomocnej premmennej
+            this.opoved = client.Get("Zariadenie"); //ziskanie dat pod prvkom "Zariadenie"
+            this.zoznamSenzorov = opoved.ResultAs<Dictionary<string, Senzor>>();  //formatovanie JSON dat do slovnika
+            this.databazaSenzorov = zoznamSenzorov.Values.ToArray();    //prepis slovníka na pole
+            int index = zariadenieComboBox.SelectedIndex;   //ulozenie aktualneho vybraneho zariadenia
+            zariadenieComboBox.Items.Clear();   //vycistenie moznosti pre vyber zariadenia
+            foreach (Senzor dev in this.databazaSenzorov) { //prejdenie pola s udajmi
+                if (dev.Volby > hryBox.Items.Count)dev.Volby = 0;   //ak je nahodou niekde väcsi udaj nastav 0
+                zariadenieComboBox.Items.Add(dev.Id);   //pridanie zariadeni do vyberu zariadenia
             }
             try
             {
-                deviceComboBox.SelectedIndex = index;
+                zariadenieComboBox.SelectedIndex = index;   //ak sa da nastav pôvodny index
             }
             catch { }
-            postupVHreProgressBar.Maximum = databazaSenzorov.Length;
+            postupVHreProgressBar.Maximum = databazaSenzorov.Length;    //podla poctu zariadeni nastav zobrazovac postupu
         }
         private void startGameButton_Click(object sender, EventArgs e)
         {
             try
             {
-                databazaSenzorov[deviceComboBox.SelectedIndex].Start = true;
-                nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
+                databazaSenzorov[zariadenieComboBox.SelectedIndex].Start = true;
+                nastavovac(databazaSenzorov[zariadenieComboBox.SelectedIndex]);
                 ledOvalShape.BackColor = Color.Green;
             }
             catch {
@@ -103,8 +103,8 @@ namespace IoT_driver_firebase
         {
             try
             {
-                databazaSenzorov[deviceComboBox.SelectedIndex].Start = false;
-                nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
+                databazaSenzorov[zariadenieComboBox.SelectedIndex].Start = false;
+                nastavovac(databazaSenzorov[zariadenieComboBox.SelectedIndex]);
                 ledOvalShape.BackColor = Color.Red;
             }
             catch {
@@ -131,50 +131,50 @@ namespace IoT_driver_firebase
         }
         private void hryBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            databazaSenzorov[deviceComboBox.SelectedIndex].Volby = hryBox.SelectedIndex;
-            nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
+            databazaSenzorov[zariadenieComboBox.SelectedIndex].Volby = hryBox.SelectedIndex;
+            nastavovac(databazaSenzorov[zariadenieComboBox.SelectedIndex]);
         }
         private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
-            if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
+            hryBox.SelectedIndex = databazaSenzorov[zariadenieComboBox.SelectedIndex].Volby;
+            if (databazaSenzorov[zariadenieComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
             else ledOvalShape.BackColor = Color.Red;
-            posledneCheckBox.Checked = databazaSenzorov[deviceComboBox.SelectedIndex].Posledne;
+            posledneCheckBox.Checked = databazaSenzorov[zariadenieComboBox.SelectedIndex].Posledne;
         }
         private void deviceComboBox_MouseClick(object sender, MouseEventArgs e)
         {
             obnovDatabazu();
         }
         Senzor nacitajZariadenie(string id) {
-            this.response = client.Get("Zariadenie/" + id);
-            return this.response.ResultAs<Senzor>();
+            this.opoved = client.Get("Zariadenie/" + id);
+            return this.opoved.ResultAs<Senzor>();
         }
         private void nastavovac(Senzor dev) {
-            client.Set("Zariadenie/" + dev.Id, dev);
+            client.Set("Zariadenie/" + dev.Id, dev);    //nastav k zariadeniu pod id jeho vsetky udaje
         }
 
         private void deviceDeleteButton_Click(object sender, EventArgs e)
         {
-            if (deviceComboBox.SelectedIndex != -1)
+            if (zariadenieComboBox.SelectedIndex != -1) //ak je vybrane nejaké zariadenie
             {
-                DialogResult dialogResult = MessageBox.Show("Naozaj cheš odstrániť zariadenie " + deviceComboBox.SelectedItem.ToString() + " ?", "Odstrániť zariadenie", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                DialogResult dialogResult = MessageBox.Show("Naozaj cheš odstrániť zariadenie " + zariadenieComboBox.SelectedItem.ToString() + " ?", "Odstrániť zariadenie", MessageBoxButtons.YesNo); //dialogove okno s potvrdzujucou moznostou
+                if (dialogResult == DialogResult.Yes) //ak je vybrane ano
                 {
-                    client.Delete("Zariadenie/" + deviceComboBox.SelectedItem.ToString());
-                    MessageBox.Show("Zariadenie bolo vymazane");
+                    client.Delete("Zariadenie/" + zariadenieComboBox.SelectedItem.ToString()); //zariadenie pod konkretnym indexom je vymazane
+                    MessageBox.Show("Zariadenie bolo vymazane"); //informativny zpis
                 }
-                deviceComboBox.SelectedIndex = 0;
-                obnovDatabazu();
+                zariadenieComboBox.SelectedIndex = 0; //vyberie sa prvy prvok vo vybere
+                obnovDatabazu();    //obnovia sa udaje atabaze
             }
         }
 
         private void obnovButton_Click(object sender, EventArgs e)
         {
             obnovDatabazu();
-            hryBox.SelectedIndex = databazaSenzorov[deviceComboBox.SelectedIndex].Volby;
-            if (databazaSenzorov[deviceComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
+            hryBox.SelectedIndex = databazaSenzorov[zariadenieComboBox.SelectedIndex].Volby;
+            if (databazaSenzorov[zariadenieComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
             else ledOvalShape.BackColor = Color.Red;
-            posledneCheckBox.Checked = databazaSenzorov[deviceComboBox.SelectedIndex].Posledne;
+            posledneCheckBox.Checked = databazaSenzorov[zariadenieComboBox.SelectedIndex].Posledne;
         }
 
         private void stopkyStartButton_Click(object sender, EventArgs e)
@@ -213,15 +213,15 @@ namespace IoT_driver_firebase
         }
         private void stopkyTimer_Tick(object sender, EventArgs e)
         {
-            casLabel.Text = this.stopky.Elapsed.ToString(@"hh\:mm\:ss");
-            if (this.stopky.IsRunning) {
-                obnovDatabazu();
-                for (int i = 0; i < this.databazaSenzorov.Length; i++) {
-                    if(this.databazaSenzorov[i].Hotovo!=this.oldDatabazaSenzorov[i].Hotovo) postupVHreProgressBar.Increment(1);
-                    if (this.databazaSenzorov[i].Posledne == true && this.databazaSenzorov[i].Hotovo == true)
+            casLabel.Text = this.stopky.Elapsed.ToString(@"hh\:mm\:ss");    //format casu do jLabelu
+            if (this.stopky.IsRunning) {    //ak je casovac spusteny
+                obnovDatabazu();    //každy impulz sa obnovy databaza
+                for (int i = 0; i < this.databazaSenzorov.Length; i++) {    //po obnovení sa prejde zoznam dat
+                    if(this.databazaSenzorov[i].Hotovo!=this.oldDatabazaSenzorov[i].Hotovo) postupVHreProgressBar.Increment(1); //ak niektore zaraidenie sa dokonci, zvacsi sa progress bar
+                    if (this.databazaSenzorov[i].Posledne == true && this.databazaSenzorov[i].Hotovo == true)   // ak sa dokonci poslnedne zariadenie, zatavi sa casovac
                     {
-                        postupVHreProgressBar.Value = postupVHreProgressBar.Maximum;
-                        stopkyStartButton_Click(sender, e);
+                        postupVHreProgressBar.Value = postupVHreProgressBar.Maximum;    //nastavi sa progress bar na maximum
+                        stopkyStartButton_Click(sender, e); //klikne sa na moznost stop
                     }
                 }
             }
@@ -242,12 +242,12 @@ namespace IoT_driver_firebase
         {
             if (posledneCheckBox.Checked == true)
             {
-                DialogResult dialogResult = MessageBox.Show("Prajete si zariadenie '"+ databazaSenzorov[deviceComboBox.SelectedIndex].Id  + "' nastaviť ako posledné? ", "Posledne", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Prajete si zariadenie '"+ databazaSenzorov[zariadenieComboBox.SelectedIndex].Id  + "' nastaviť ako posledné? ", "Posledne", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     for (int i = 0; i < databazaSenzorov.Length; i++)
                     {
-                        if (i != deviceComboBox.SelectedIndex)
+                        if (i != zariadenieComboBox.SelectedIndex)
                         {
                             databazaSenzorov[i].Posledne = false;
                             nastavovac(databazaSenzorov[i]);
@@ -255,8 +255,8 @@ namespace IoT_driver_firebase
                     }
                 }
             }
-            databazaSenzorov[deviceComboBox.SelectedIndex].Posledne = posledneCheckBox.Checked;
-            nastavovac(databazaSenzorov[deviceComboBox.SelectedIndex]);
+            databazaSenzorov[zariadenieComboBox.SelectedIndex].Posledne = posledneCheckBox.Checked;
+            nastavovac(databazaSenzorov[zariadenieComboBox.SelectedIndex]);
         }
 
         private void rebricekDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)

@@ -34,16 +34,16 @@ namespace IoT_driver_firebase
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.posledneCheckBox = new System.Windows.Forms.CheckBox();
+            this.obnovButton = new System.Windows.Forms.Button();
             this.deviceDeleteButton = new System.Windows.Forms.Button();
-            this.deviceComboBox = new System.Windows.Forms.ComboBox();
+            this.zariadenieComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.stopAllButton = new System.Windows.Forms.Button();
+            this.startAllButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.hryBox = new System.Windows.Forms.ComboBox();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.ledOvalShape = new Microsoft.VisualBasic.PowerPacks.OvalShape();
-            this.startAllButton = new System.Windows.Forms.Button();
-            this.stopAllButton = new System.Windows.Forms.Button();
-            this.obnovButton = new System.Windows.Forms.Button();
             this.rebricekDataGridView = new System.Windows.Forms.DataGridView();
             this.poradieStlpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menoStlpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -80,7 +80,7 @@ namespace IoT_driver_firebase
             this.groupBox1.Controls.Add(this.posledneCheckBox);
             this.groupBox1.Controls.Add(this.obnovButton);
             this.groupBox1.Controls.Add(this.deviceDeleteButton);
-            this.groupBox1.Controls.Add(this.deviceComboBox);
+            this.groupBox1.Controls.Add(this.zariadenieComboBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(408, 74);
@@ -99,6 +99,16 @@ namespace IoT_driver_firebase
             this.posledneCheckBox.UseVisualStyleBackColor = true;
             this.posledneCheckBox.MouseCaptureChanged += new System.EventHandler(this.posledneCheckBox_MouseCaptureChanged);
             // 
+            // obnovButton
+            // 
+            this.obnovButton.Location = new System.Drawing.Point(210, 18);
+            this.obnovButton.Name = "obnovButton";
+            this.obnovButton.Size = new System.Drawing.Size(62, 24);
+            this.obnovButton.TabIndex = 4;
+            this.obnovButton.Text = "Obnoviť databázu";
+            this.obnovButton.UseVisualStyleBackColor = true;
+            this.obnovButton.Click += new System.EventHandler(this.obnovButton_Click);
+            // 
             // deviceDeleteButton
             // 
             this.deviceDeleteButton.Location = new System.Drawing.Point(282, 19);
@@ -109,15 +119,15 @@ namespace IoT_driver_firebase
             this.deviceDeleteButton.UseVisualStyleBackColor = true;
             this.deviceDeleteButton.Click += new System.EventHandler(this.deviceDeleteButton_Click);
             // 
-            // deviceComboBox
+            // zariadenieComboBox
             // 
-            this.deviceComboBox.FormattingEnabled = true;
-            this.deviceComboBox.Location = new System.Drawing.Point(6, 29);
-            this.deviceComboBox.Name = "deviceComboBox";
-            this.deviceComboBox.Size = new System.Drawing.Size(165, 21);
-            this.deviceComboBox.TabIndex = 0;
-            this.deviceComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceComboBox_SelectedIndexChanged);
-            this.deviceComboBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.deviceComboBox_MouseClick);
+            this.zariadenieComboBox.FormattingEnabled = true;
+            this.zariadenieComboBox.Location = new System.Drawing.Point(6, 29);
+            this.zariadenieComboBox.Name = "zariadenieComboBox";
+            this.zariadenieComboBox.Size = new System.Drawing.Size(165, 21);
+            this.zariadenieComboBox.TabIndex = 0;
+            this.zariadenieComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceComboBox_SelectedIndexChanged);
+            this.zariadenieComboBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.deviceComboBox_MouseClick);
             // 
             // groupBox2
             // 
@@ -133,6 +143,26 @@ namespace IoT_driver_firebase
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nastavenie hry";
+            // 
+            // stopAllButton
+            // 
+            this.stopAllButton.Location = new System.Drawing.Point(303, 46);
+            this.stopAllButton.Name = "stopAllButton";
+            this.stopAllButton.Size = new System.Drawing.Size(97, 23);
+            this.stopAllButton.TabIndex = 3;
+            this.stopAllButton.Text = "Vypnut všetky";
+            this.stopAllButton.UseVisualStyleBackColor = true;
+            this.stopAllButton.Click += new System.EventHandler(this.stopAllButton_Click);
+            // 
+            // startAllButton
+            // 
+            this.startAllButton.Location = new System.Drawing.Point(303, 16);
+            this.startAllButton.Name = "startAllButton";
+            this.startAllButton.Size = new System.Drawing.Size(97, 24);
+            this.startAllButton.TabIndex = 2;
+            this.startAllButton.Text = "Zapnúť všetky";
+            this.startAllButton.UseVisualStyleBackColor = true;
+            this.startAllButton.Click += new System.EventHandler(this.startAllButton_Click);
             // 
             // stopButton
             // 
@@ -173,36 +203,6 @@ namespace IoT_driver_firebase
             this.ledOvalShape.Name = "ledOvalShape";
             this.ledOvalShape.SelectionColor = System.Drawing.SystemColors.ButtonShadow;
             this.ledOvalShape.Size = new System.Drawing.Size(30, 30);
-            // 
-            // startAllButton
-            // 
-            this.startAllButton.Location = new System.Drawing.Point(303, 16);
-            this.startAllButton.Name = "startAllButton";
-            this.startAllButton.Size = new System.Drawing.Size(97, 24);
-            this.startAllButton.TabIndex = 2;
-            this.startAllButton.Text = "Zapnúť všetky";
-            this.startAllButton.UseVisualStyleBackColor = true;
-            this.startAllButton.Click += new System.EventHandler(this.startAllButton_Click);
-            // 
-            // stopAllButton
-            // 
-            this.stopAllButton.Location = new System.Drawing.Point(303, 46);
-            this.stopAllButton.Name = "stopAllButton";
-            this.stopAllButton.Size = new System.Drawing.Size(97, 23);
-            this.stopAllButton.TabIndex = 3;
-            this.stopAllButton.Text = "Vypnut všetky";
-            this.stopAllButton.UseVisualStyleBackColor = true;
-            this.stopAllButton.Click += new System.EventHandler(this.stopAllButton_Click);
-            // 
-            // obnovButton
-            // 
-            this.obnovButton.Location = new System.Drawing.Point(210, 18);
-            this.obnovButton.Name = "obnovButton";
-            this.obnovButton.Size = new System.Drawing.Size(62, 24);
-            this.obnovButton.TabIndex = 4;
-            this.obnovButton.Text = "Obnoviť databázu";
-            this.obnovButton.UseVisualStyleBackColor = true;
-            this.obnovButton.Click += new System.EventHandler(this.obnovButton_Click);
             // 
             // rebricekDataGridView
             // 
@@ -355,7 +355,7 @@ namespace IoT_driver_firebase
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox deviceComboBox;
+        private System.Windows.Forms.ComboBox zariadenieComboBox;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox hryBox;
         private System.Windows.Forms.Button startAllButton;
