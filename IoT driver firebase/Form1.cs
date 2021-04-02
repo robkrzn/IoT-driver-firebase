@@ -187,13 +187,12 @@ namespace IoT_driver_firebase
                 }
                 if ((menoTextBox.Text != "") && !posledneDev)
                 {
-                    bool vsetkyZap = false;
                     foreach (Senzor dev in this.databazaSenzorov) {
                         dev.Hotovo = false;
+                        dev.Start = true;
                         nastavovac(dev);
-                        if (!dev.Start) vsetkyZap = true;
+                        //if (!dev.Start) vsetkyZap = true;
                     }
-                    if (vsetkyZap) MessageBox.Show("Hra je zapnutá aj keď nie všetky zariadenie sú zapnuté");
                     this.stopky.Start();
                     stopkyStartButton.Text = "Stop";
                 }
@@ -209,6 +208,7 @@ namespace IoT_driver_firebase
                 menoTextBox.Text = "";
                 stopkyStartButton.Text = "Start";
                 postupVHreProgressBar.Value = 0;
+                stopAllButton_Click(sender, e); //vypnutie vsetkych zariadeni a tak priprava na nove kolo
             }
         }
         private void stopkyTimer_Tick(object sender, EventArgs e)
