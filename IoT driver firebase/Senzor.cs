@@ -18,5 +18,7 @@ namespace IoT_driver_firebase
 
         public bool Posledne { get; set; }
 
+        public bool Online { get; set; }
+
     }
 }

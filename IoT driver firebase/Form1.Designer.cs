@@ -57,6 +57,9 @@ namespace IoT_driver_firebase
             this.stopkyTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.postupVHreProgressBar = new System.Windows.Forms.ProgressBar();
+            this.onlineOvalShape = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.onlineLabel = new System.Windows.Forms.Label();
             startGameButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -77,10 +80,12 @@ namespace IoT_driver_firebase
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.onlineLabel);
             this.groupBox1.Controls.Add(this.posledneCheckBox);
             this.groupBox1.Controls.Add(this.obnovButton);
             this.groupBox1.Controls.Add(this.deviceDeleteButton);
             this.groupBox1.Controls.Add(this.zariadenieComboBox);
+            this.groupBox1.Controls.Add(this.shapeContainer2);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(408, 74);
@@ -329,6 +334,36 @@ namespace IoT_driver_firebase
             this.postupVHreProgressBar.Size = new System.Drawing.Size(391, 23);
             this.postupVHreProgressBar.TabIndex = 1;
             // 
+            // onlineOvalShape
+            // 
+            this.onlineOvalShape.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.onlineOvalShape.BackStyle = Microsoft.VisualBasic.PowerPacks.BackStyle.Opaque;
+            this.onlineOvalShape.FillGradientColor = System.Drawing.Color.Black;
+            this.onlineOvalShape.Location = new System.Drawing.Point(178, 3);
+            this.onlineOvalShape.Name = "onlineOvalShape";
+            this.onlineOvalShape.SelectionColor = System.Drawing.SystemColors.ButtonShadow;
+            this.onlineOvalShape.Size = new System.Drawing.Size(19, 19);
+            this.onlineOvalShape.Click += new System.EventHandler(this.onlineOvalShape_Click);
+            // 
+            // shapeContainer2
+            // 
+            this.shapeContainer2.Location = new System.Drawing.Point(3, 16);
+            this.shapeContainer2.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer2.Name = "shapeContainer2";
+            this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.onlineOvalShape});
+            this.shapeContainer2.Size = new System.Drawing.Size(402, 55);
+            this.shapeContainer2.TabIndex = 5;
+            this.shapeContainer2.TabStop = false;
+            // 
+            // onlineLabel
+            // 
+            this.onlineLabel.AutoSize = true;
+            this.onlineLabel.Location = new System.Drawing.Point(8, 53);
+            this.onlineLabel.Name = "onlineLabel";
+            this.onlineLabel.Size = new System.Drawing.Size(0, 13);
+            this.onlineLabel.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -379,6 +414,9 @@ namespace IoT_driver_firebase
         private System.Windows.Forms.CheckBox posledneCheckBox;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.ProgressBar postupVHreProgressBar;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer2;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape onlineOvalShape;
+        private System.Windows.Forms.Label onlineLabel;
     }
 }
 

@@ -31,6 +31,7 @@ namespace IoT_driver_firebase
         private Dictionary<string, Senzor> zoznamSenzorov;
         private Dictionary<string, string> rebricekDic;
         private Stopwatch stopky;
+        private int onlinePocet;
         public Form1()
         {
             InitializeComponent();
@@ -41,7 +42,7 @@ namespace IoT_driver_firebase
             }
             this.stopky = new Stopwatch();
             obnovDatabazu();
-
+            obnovPocetOnline(true);
             hryBox.Items.Add("Svetelna brana");
             hryBox.Items.Add("Morseovka");
             hryBox.Items.Add("LED Hra");
@@ -70,6 +71,7 @@ namespace IoT_driver_firebase
 
         }
         private void obnovDatabazu() {
+            this.onlinePocet = 0;
             this.oldDatabazaSenzorov = this.databazaSenzorov; //aktualna databaza sa ulozi do pomocnej premmennej
             this.opoved = client.Get("Zariadenie"); //ziskanie dat pod prvkom "Zariadenie"
             this.zoznamSenzorov = opoved.ResultAs<Dictionary<string, Senzor>>();  //formatovanie JSON dat do slovnika
@@ -79,7 +81,9 @@ namespace IoT_driver_firebase
             foreach (Senzor dev in this.databazaSenzorov) { //prejdenie pola s udajmi
                 if (dev.Volby > hryBox.Items.Count)dev.Volby = 0;   //ak je nahodou niekde väcsi udaj nastav 0
                 zariadenieComboBox.Items.Add(dev.Id);   //pridanie zariadeni do vyberu zariadenia
+                if (dev.Online) this.onlinePocet++;
             }
+            onlineLabel.Text = onlinePocet + " je online";
             try
             {
                 zariadenieComboBox.SelectedIndex = index;   //ak sa da nastav pôvodny index
@@ -140,6 +144,8 @@ namespace IoT_driver_firebase
             if (databazaSenzorov[zariadenieComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
             else ledOvalShape.BackColor = Color.Red;
             posledneCheckBox.Checked = databazaSenzorov[zariadenieComboBox.SelectedIndex].Posledne;
+            if (databazaSenzorov[zariadenieComboBox.SelectedIndex].Online == true) onlineOvalShape.BackColor = Color.Green;
+            else onlineOvalShape.BackColor = Color.Red;
         }
         private void deviceComboBox_MouseClick(object sender, MouseEventArgs e)
         {
@@ -167,14 +173,25 @@ namespace IoT_driver_firebase
                 obnovDatabazu();    //obnovia sa udaje atabaze
             }
         }
+        void obnovPocetOnline(bool full) {
+            foreach (Senzor dev in this.databazaSenzorov)
+            {
+                dev.Online = false;
+                nastavovac(dev);
+            }
+            if (full)obnovDatabazu();
+        }
 
         private void obnovButton_Click(object sender, EventArgs e)
         {
+            obnovPocetOnline(false);
             obnovDatabazu();
             hryBox.SelectedIndex = databazaSenzorov[zariadenieComboBox.SelectedIndex].Volby;
             if (databazaSenzorov[zariadenieComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
             else ledOvalShape.BackColor = Color.Red;
             posledneCheckBox.Checked = databazaSenzorov[zariadenieComboBox.SelectedIndex].Posledne;
+            if (databazaSenzorov[zariadenieComboBox.SelectedIndex].Online == true) onlineOvalShape.BackColor = Color.Green;
+            else onlineOvalShape.BackColor = Color.Red;
         }
 
         private void stopkyStartButton_Click(object sender, EventArgs e)
@@ -262,6 +279,24 @@ namespace IoT_driver_firebase
         private void rebricekDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             menoTextBox.Text = rebricekDataGridView.SelectedRows[0].Cells[1].Value.ToString();
+        }
+
+        private void onlineOvalShape_Click(object sender, EventArgs e)
+        {
+            onlineOvalShape.BackColor = Color.Blue;
+            Senzor dev = databazaSenzorov[zariadenieComboBox.SelectedIndex];
+            dev.Online = false;
+            nastavovac(dev);
+            System.Threading.Thread.Sleep(500);
+            obnovDatabazu();
+            foreach (Senzor zar in this.databazaSenzorov)
+            {
+                if (zar.Id == dev.Id)
+                {
+                    if (databazaSenzorov[zariadenieComboBox.SelectedIndex].Online == true) onlineOvalShape.BackColor = Color.Green;
+                    else onlineOvalShape.BackColor = Color.Red;
+                }
+            }
         }
     }
 }
