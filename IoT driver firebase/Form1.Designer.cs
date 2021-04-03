@@ -127,7 +127,7 @@ namespace IoT_driver_firebase
             // zariadenieComboBox
             // 
             this.zariadenieComboBox.FormattingEnabled = true;
-            this.zariadenieComboBox.Location = new System.Drawing.Point(6, 29);
+            this.zariadenieComboBox.Location = new System.Drawing.Point(6, 19);
             this.zariadenieComboBox.Name = "zariadenieComboBox";
             this.zariadenieComboBox.Size = new System.Drawing.Size(165, 21);
             this.zariadenieComboBox.TabIndex = 0;

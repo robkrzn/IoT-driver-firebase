@@ -64,7 +64,7 @@ namespace IoT_driver_firebase
             }
             this.rebricekDataGridView.Sort(casStlpec, ListSortDirection.Ascending); //zoradenie rebricka podla casu
             for (int i = 0; i < this.rebricekDataGridView.RowCount - 1; i++) {  
-                this.rebricekDataGridView.Rows[i].Cells[0].Value = i + 1;  //doplnenie poriadia k prvom v rebricku
+                this.rebricekDataGridView.Rows[i].Cells[0].Value = i + 1;  //doplnenie stplca k prvom v rebricku
                 if (i == 0) this.rebricekDataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;    //farebne oznacenie prvych 3 miest
                 if (i == 1 || i == 2) this.rebricekDataGridView.Rows[i].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;    
             }
@@ -218,7 +218,17 @@ namespace IoT_driver_firebase
             }
             else {
                 this.stopky.Stop();
-                client.Set("Rebricek/" + menoTextBox.Text, this.stopky.Elapsed.ToString(@"hh\:mm\:ss"));
+                bool najdeny = false;
+                for (int i = 0; i < rebricekDataGridView.Rows.Count-1; i++) {
+                    if (rebricekDataGridView.Rows[i].Cells[1].Value.ToString() == menoTextBox.Text) {
+                        DateTime stary = DateTime.ParseExact(rebricekDataGridView.Rows[i].Cells[2].Value.ToString(),"hh:mm:ss",CultureInfo.InvariantCulture);
+                        DateTime aktualy = DateTime.ParseExact(this.stopky.Elapsed.ToString(@"hh\:mm\:ss"), "hh:mm:ss", CultureInfo.InvariantCulture);
+                        najdeny = true;
+                        if (TimeSpan.Compare(stary.TimeOfDay, aktualy.TimeOfDay)== 1) najdeny = false;  //ak sa zisti ze predchadazajuci cas bol lepsi neprepise sa
+                    }
+                }
+                if (!najdeny) 
+                    client.Set("Rebricek/" + menoTextBox.Text, this.stopky.Elapsed.ToString(@"hh\:mm\:ss"));
                 MessageBox.Show(menoTextBox.Text + " mal/a čas " + this.stopky.Elapsed.ToString(@"hh\:mm\:ss"));
                 nacitajRebricek();
                 this.stopky.Reset();
