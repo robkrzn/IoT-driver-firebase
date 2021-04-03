@@ -51,6 +51,7 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Dotyk");
             hryBox.Items.Add("Vzdialenosť");
 
+
             zariadenieComboBox.SelectedIndex = 0;
             
             nacitajRebricek();
@@ -141,6 +142,7 @@ namespace IoT_driver_firebase
         private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             hryBox.SelectedIndex = databazaSenzorov[zariadenieComboBox.SelectedIndex].Volby;
+            LEDcomboBox.SelectedIndex = databazaSenzorov[zariadenieComboBox.SelectedIndex].LED;
             if (databazaSenzorov[zariadenieComboBox.SelectedIndex].Start == true) ledOvalShape.BackColor = Color.Green;
             else ledOvalShape.BackColor = Color.Red;
             posledneCheckBox.Checked = databazaSenzorov[zariadenieComboBox.SelectedIndex].Posledne;
@@ -151,6 +153,12 @@ namespace IoT_driver_firebase
         {
             obnovDatabazu();
         }
+        private void LEDcomboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            databazaSenzorov[zariadenieComboBox.SelectedIndex].LED = LEDcomboBox.SelectedIndex;
+            nastavovac(databazaSenzorov[zariadenieComboBox.SelectedIndex]);
+        }
+        
         Senzor nacitajZariadenie(string id) {
             this.opoved = client.Get("Zariadenie/" + id);
             return this.opoved.ResultAs<Senzor>();
@@ -308,5 +316,7 @@ namespace IoT_driver_firebase
                 }
             }
         }
+
+        
     }
 }

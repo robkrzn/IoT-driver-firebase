@@ -60,6 +60,8 @@ namespace IoT_driver_firebase
             this.onlineOvalShape = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.onlineLabel = new System.Windows.Forms.Label();
+            this.LEDcomboBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             startGameButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,6 +82,8 @@ namespace IoT_driver_firebase
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.LEDcomboBox);
             this.groupBox1.Controls.Add(this.onlineLabel);
             this.groupBox1.Controls.Add(this.posledneCheckBox);
             this.groupBox1.Controls.Add(this.obnovButton);
@@ -88,7 +92,7 @@ namespace IoT_driver_firebase
             this.groupBox1.Controls.Add(this.shapeContainer2);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(408, 74);
+            this.groupBox1.Size = new System.Drawing.Size(408, 88);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Vyber zariadenie";
@@ -96,7 +100,7 @@ namespace IoT_driver_firebase
             // posledneCheckBox
             // 
             this.posledneCheckBox.AutoSize = true;
-            this.posledneCheckBox.Location = new System.Drawing.Point(281, 51);
+            this.posledneCheckBox.Location = new System.Drawing.Point(281, 48);
             this.posledneCheckBox.Name = "posledneCheckBox";
             this.posledneCheckBox.Size = new System.Drawing.Size(121, 17);
             this.posledneCheckBox.TabIndex = 3;
@@ -142,7 +146,7 @@ namespace IoT_driver_firebase
             this.groupBox2.Controls.Add(startGameButton);
             this.groupBox2.Controls.Add(this.hryBox);
             this.groupBox2.Controls.Add(this.shapeContainer1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 101);
+            this.groupBox2.Location = new System.Drawing.Point(12, 106);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(408, 85);
             this.groupBox2.TabIndex = 1;
@@ -257,7 +261,7 @@ namespace IoT_driver_firebase
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.stopkyStartButton);
             this.groupBox3.Controls.Add(this.menoTextBox);
-            this.groupBox3.Location = new System.Drawing.Point(15, 192);
+            this.groupBox3.Location = new System.Drawing.Point(15, 197);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(405, 267);
             this.groupBox3.TabIndex = 6;
@@ -320,7 +324,7 @@ namespace IoT_driver_firebase
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.postupVHreProgressBar);
-            this.groupBox4.Location = new System.Drawing.Point(15, 465);
+            this.groupBox4.Location = new System.Drawing.Point(15, 470);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(405, 56);
             this.groupBox4.TabIndex = 7;
@@ -352,23 +356,51 @@ namespace IoT_driver_firebase
             this.shapeContainer2.Name = "shapeContainer2";
             this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.onlineOvalShape});
-            this.shapeContainer2.Size = new System.Drawing.Size(402, 55);
+            this.shapeContainer2.Size = new System.Drawing.Size(402, 69);
             this.shapeContainer2.TabIndex = 5;
             this.shapeContainer2.TabStop = false;
             // 
             // onlineLabel
             // 
             this.onlineLabel.AutoSize = true;
-            this.onlineLabel.Location = new System.Drawing.Point(8, 53);
+            this.onlineLabel.Location = new System.Drawing.Point(279, 68);
             this.onlineLabel.Name = "onlineLabel";
-            this.onlineLabel.Size = new System.Drawing.Size(0, 13);
+            this.onlineLabel.Size = new System.Drawing.Size(35, 13);
             this.onlineLabel.TabIndex = 6;
+            this.onlineLabel.Text = "online";
+            // 
+            // LEDcomboBox
+            // 
+            this.LEDcomboBox.DisplayMember = "Červená";
+            this.LEDcomboBox.FormattingEnabled = true;
+            this.LEDcomboBox.Items.AddRange(new object[] {
+            "Červená",
+            "Zelená",
+            "Modrá",
+            "Žltá",
+            "Fialová",
+            "Tyrkysová",
+            "Biela"});
+            this.LEDcomboBox.Location = new System.Drawing.Point(6, 59);
+            this.LEDcomboBox.Name = "LEDcomboBox";
+            this.LEDcomboBox.Size = new System.Drawing.Size(84, 21);
+            this.LEDcomboBox.TabIndex = 7;
+            this.LEDcomboBox.SelectedIndexChanged += new System.EventHandler(this.LEDcomboBox_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 43);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(85, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "LED identifikátor";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 532);
+            this.ClientSize = new System.Drawing.Size(434, 543);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -417,6 +449,8 @@ namespace IoT_driver_firebase
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer2;
         private Microsoft.VisualBasic.PowerPacks.OvalShape onlineOvalShape;
         private System.Windows.Forms.Label onlineLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox LEDcomboBox;
     }
 }
 

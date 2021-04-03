@@ -20,5 +20,7 @@ namespace IoT_driver_firebase
 
         public bool Online { get; set; }
 
+        public int LED { get; set; }
+
     }
 }
