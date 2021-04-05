@@ -50,6 +50,7 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Tlieskaj");
             hryBox.Items.Add("Dotyk");
             hryBox.Items.Add("Vzdialenosť");
+            hryBox.Items.Add("Voda");
 
 
             zariadenieComboBox.SelectedIndex = 0;
