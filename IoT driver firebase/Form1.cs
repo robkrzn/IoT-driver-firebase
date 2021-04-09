@@ -41,8 +41,7 @@ namespace IoT_driver_firebase
                 MessageBox.Show("Chyba pripojenia");
             }
             this.stopky = new Stopwatch();
-            obnovDatabazu();
-            obnovPocetOnline(true);
+            
             hryBox.Items.Add("Svetelna brana");
             hryBox.Items.Add("Morseovka");
             hryBox.Items.Add("LED Hra");
@@ -51,18 +50,26 @@ namespace IoT_driver_firebase
             hryBox.Items.Add("Dotyk");
             hryBox.Items.Add("Vzdialenosť");
             hryBox.Items.Add("Voda");
-
+            //hryBox.Items.Add("Magnet");
+            
+            obnovDatabazu();
+            obnovPocetOnline(true);
 
             zariadenieComboBox.SelectedIndex = 0;
-            
+            hryBox.SelectedIndex = databazaSenzorov[zariadenieComboBox.SelectedIndex].Volby;
+
             nacitajRebricek();
         }
         private void nacitajRebricek() {
             rebricekDataGridView.Rows.Clear();  //vymazanie aktualneho rebricka
             this.opoved = client.Get("Rebricek");   // ziskanie dat pod prvkom "Rebricek"
             this.rebricekDic= opoved.ResultAs<Dictionary<string, string>>(); //formatovanie JSON dat do slovnika
-            for (int i = 0; i < this.rebricekDic.Count; i++) {  //naplnenie rebricka aktualnmi datami
-                rebricekDataGridView.Rows.Add(null, this.rebricekDic.ElementAt(i).Key, this.rebricekDic.ElementAt(i).Value);
+            if (rebricekDic != null)
+            {
+                for (int i = 0; i < this.rebricekDic.Count; i++)
+                {  //naplnenie rebricka aktualnmi datami
+                    rebricekDataGridView.Rows.Add(null, this.rebricekDic.ElementAt(i).Key, this.rebricekDic.ElementAt(i).Value);
+                }
             }
             this.rebricekDataGridView.Sort(casStlpec, ListSortDirection.Ascending); //zoradenie rebricka podla casu
             for (int i = 0; i < this.rebricekDataGridView.RowCount - 1; i++) {  
@@ -92,6 +99,7 @@ namespace IoT_driver_firebase
             }
             catch { }
             postupVHreProgressBar.Maximum = databazaSenzorov.Length;    //podla poctu zariadeni nastav zobrazovac postupu
+            //hryBox.SelectedIndex = databazaSenzorov[zariadenieComboBox.SelectedIndex].Volby;
         }
         private void startGameButton_Click(object sender, EventArgs e)
         {
