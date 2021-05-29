@@ -228,7 +228,7 @@ namespace IoT_driver_firebase
         {
             if (stopkyStartButton.Text == "Start")  //ak je tlacidlo momentalne ako start
             {
-                bool posledneDev = false;   //zistenie ci je nastavene posledne zariadenie pomocou cyklu
+                bool posledneDev = true;   //zistenie ci je nastavene posledne zariadenie pomocou cyklu
                 foreach (Senzor dev in this.databazaSenzorov){
                     if (!dev.Posledne) posledneDev = !posledneDev;
                 }
